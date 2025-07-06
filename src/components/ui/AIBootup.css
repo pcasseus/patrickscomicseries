@@ -198,3 +198,20 @@ video {
     transform: translateX(-1px);
   }
 }
+
+@keyframes pulseCore {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(103, 232, 249, 0.8);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(103, 232, 249, 1);
+  }
+}
+
+.core.speaking {
+  background: #a5f3fc;
+  box-shadow: 0 0 18px rgba(103, 232, 249, 1);
+  animation: pulseCore 2s ease-in-out infinite;
+}
