@@ -1,36 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
-import AIBootupPanel from "./AIBootupPanel";
-import { useBootSequence } from "./useBootSequence";
-import { textLines } from "./bootConstants";
+import React, { useEffect, useState } from "react";
+import AICoreCircle from "../ui/AICoreCircle";
 import "../ui/AIBootup.css";
 
-const AIBootup = ({ onComplete }) => {
-  const blipRef = useRef(null);
-  const audioRef = useRef(null);
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+const AIBootup = ({ onComplete }) => {
   const [confirmedStart, setConfirmedStart] = useState(false);
   const [skipped, setSkipped] = useState(false);
-  const [audioStarted, setAudioStarted] = useState(() => {
-    return sessionStorage.getItem("bootupAudioPlayed") === "true";
-  });
 
-  const {
-    displayIndex,
-    fadeOut,
-    playAudioOnce,
-    skip: skipBoot,
-  } = useBootSequence({
-    confirmedStart,
-    skipped,
-    onComplete: () => {
-      unlockScroll();
-      document.body.classList.remove("hide-navbar");
-      onComplete?.();
-    },
-    blipRef,
-  });
-
-  // Unlock scroll and UI after boot completes or is skipped
   const unlockScroll = () => {
     document.body.style.overflow = "auto";
     setTimeout(() => {
@@ -40,54 +17,31 @@ const AIBootup = ({ onComplete }) => {
     if (el) el.classList.add("scroll-unlocked");
   };
 
-  // Confirmed start (user clicked the "Get Started" button)
   const handleConfirm = () => {
     setConfirmedStart(true);
 
-    if (!audioStarted) {
-      const ambient = new Audio("/sfx/bootup.mp3");
-      ambient.volume = 0.9;
-      ambient.loop = true;
-      ambient.play().catch(() => {});
-      audioRef.current = ambient;
-
-      sessionStorage.setItem("bootupAudioPlayed", "true");
-      setAudioStarted(true);
+    if (isMobile) {
+      const audio = new Audio("/voice/bootup_mobile.mp3");
+      audio.volume = 1;
+      audio.play();
+      audio.onended = () => {
+        unlockScroll();
+        document.body.classList.remove("hide-navbar");
+        onComplete?.();
+      };
     }
-
-    // Start boot sequence audio cues (text beeps etc)
-    playAudioOnce();
   };
 
-  // Skip logic if user clicks "Skip"
   const handleSkip = () => {
     setSkipped(true);
-    skipBoot();
     unlockScroll();
     document.body.classList.remove("hide-navbar");
-
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
+    onComplete?.();
   };
 
-  // Stop boot audio when "Welcome" finishes
-  useEffect(() => {
-    if (
-      textLines[displayIndex]?.toLowerCase().includes("welcome to the kenshinverse") &&
-      audioRef.current
-    ) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-  }, [displayIndex]);
-
-  // Lock scroll and hide navbar on mount
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.classList.add("hide-navbar");
-
     return () => {
       document.body.style.overflow = "auto";
       document.body.classList.remove("hide-navbar");
@@ -95,16 +49,50 @@ const AIBootup = ({ onComplete }) => {
   }, []);
 
   return (
-    <div style={{ minHeight: "100dvh", height: "100%", width: "100%", overflow: "hidden" }}>
-      <AIBootupPanel
-        confirmedStart={confirmedStart}
-        onConfirm={handleConfirm}
-        onSkip={handleSkip}
-        displayIndex={displayIndex}
-        skipped={skipped}
-        blipRef={blipRef}
-        fadeOut={fadeOut}
-      />
+    <div className="ai-access-panel fixed inset-0 z-50 w-full bg-black text-center text-sm text-cyan-300 flex items-center justify-center">
+      {!confirmedStart ? (
+        <div className="flex flex-col items-center space-y-6">
+          <div className="scale-[0.75] sm:scale-100">
+            <AICoreCircle size={176} />
+          </div>
+          <div className="text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-cyan-400/80">
+            System loaded. Begin sequence?
+          </div>
+          <button
+            onClick={handleConfirm}
+            className="px-4 py-2 text-[11px] sm:text-xs bg-cyan-500 hover:bg-cyan-400 text-black rounded-full transition"
+          >
+            I’m ready
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center space-y-6 w-full">
+          {isMobile ? (
+            <p className="text-xs tracking-wide mb-2">Running boot sequence...</p>
+          ) : (
+            <video
+              src="/videos/bootup_mobile.mp4"
+              autoPlay
+              playsInline
+              className="w-full max-w-[500px] rounded-md"
+              onEnded={() => {
+                unlockScroll();
+                document.body.classList.remove("hide-navbar");
+                onComplete?.();
+              }}
+            />
+          )}
+
+          {!skipped && (
+            <button
+              onClick={handleSkip}
+              className="text-[11px] text-cyan-400 underline hover:text-cyan-200 transition"
+            >
+              Skip Intro
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
