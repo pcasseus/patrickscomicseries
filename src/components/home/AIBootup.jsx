@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import AICoreCircle from "../ui/AICoreCircle";
 import "../ui/AIBootup.css";
 
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
 const AIBootup = ({ onComplete }) => {
   const [confirmedStart, setConfirmedStart] = useState(false);
   const [skipped, setSkipped] = useState(false);
@@ -20,16 +18,14 @@ const AIBootup = ({ onComplete }) => {
   const handleConfirm = () => {
     setConfirmedStart(true);
 
-    if (isMobile) {
-      const audio = new Audio("/voice/bootup_mobile.mp3");
-      audio.volume = 1;
-      audio.play();
-      audio.onended = () => {
-        unlockScroll();
-        document.body.classList.remove("hide-navbar");
-        onComplete?.();
-      };
-    }
+    const audio = new Audio("/voice/bootup_mobile.mp3");
+    audio.volume = 1;
+    audio.play();
+    audio.onended = () => {
+      unlockScroll();
+      document.body.classList.remove("hide-navbar");
+      onComplete?.();
+    };
   };
 
   const handleSkip = () => {
@@ -52,7 +48,7 @@ const AIBootup = ({ onComplete }) => {
     <div className="ai-access-panel fixed inset-0 z-50 w-full bg-black text-center text-sm text-cyan-300 flex items-center justify-center px-4">
       <div className="flex flex-col items-center gap-2 w-full max-w-[500px]">
         <div className={`ai-core-wrapper transition-all duration-700 ${confirmedStart ? "down-shift" : ""}`}>
-          <AICoreCircle size={176} />
+          <AICoreCircle size={176} isSpeaking={confirmedStart} />
         </div>
 
         {!confirmedStart ? (
@@ -69,29 +65,29 @@ const AIBootup = ({ onComplete }) => {
           </>
         ) : (
           <>
-            {!isMobile && (
-              <video
-                src="/videos/bootup_mobile.mp4"
-                autoPlay
-                playsInline
-                className="rounded-md w-[90%] sm:w-[85%] max-w-[460px] -mt-4 mb-2"
-                onEnded={() => {
-                  unlockScroll();
-                  document.body.classList.remove("hide-navbar");
-                  onComplete?.();
-                }}
-              />
-            )}
+            <video
+              src="/videos/bootup_mobile.mp4"
+              autoPlay
+              playsInline
+              controls={false}
+              muted={false}
+              className="rounded-md w-[90%] sm:w-[85%] max-w-[460px] -mt-4 mb-2"
+              onEnded={() => {
+                unlockScroll();
+                document.body.classList.remove("hide-navbar");
+                onComplete?.();
+              }}
+            />
             {!skipped && (
               <button
-              onClick={handleSkip}
-              className="skip-intro-button mt-4"
+                onClick={handleSkip}
+                className="skip-intro-button mt-4"
               >
-                <span className="glitch-text">Skip Intro</span>
-                </button>
-              )}
-            </>
-          )}
+                <span className="glitch-text" data-text="Skip Intro">Skip Intro</span>
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
