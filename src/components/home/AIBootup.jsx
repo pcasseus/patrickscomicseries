@@ -49,50 +49,50 @@ const AIBootup = ({ onComplete }) => {
   }, []);
 
   return (
-    <div className="ai-access-panel fixed inset-0 z-50 w-full bg-black text-center text-sm text-cyan-300 flex items-center justify-center">
-      {!confirmedStart ? (
-        <div className="flex flex-col items-center space-y-6">
-          <div className="scale-[0.75] sm:scale-100">
-            <AICoreCircle size={176} />
-          </div>
-          <div className="text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-cyan-400/80">
-            System loaded. Begin sequence?
-          </div>
-          <button
-            onClick={handleConfirm}
-            className="px-4 py-2 text-[11px] sm:text-xs bg-cyan-500 hover:bg-cyan-400 text-black rounded-full transition"
-          >
-            I’m ready
-          </button>
+    <div className="ai-access-panel fixed inset-0 z-50 w-full bg-black text-center text-sm text-cyan-300 flex items-center justify-center px-4">
+      <div className="flex flex-col items-center gap-2 w-full max-w-[500px]">
+        <div className={`ai-core-wrapper transition-all duration-700 ${confirmedStart ? "down-shift" : ""}`}>
+          <AICoreCircle size={176} />
         </div>
-      ) : (
-        <div className="flex flex-col items-center space-y-6 w-full">
-          {isMobile ? (
-            <p className="text-xs tracking-wide mb-2">Running boot sequence...</p>
-          ) : (
-            <video
-              src="/videos/bootup_mobile.mp4"
-              autoPlay
-              playsInline
-              className="w-full max-w-[500px] rounded-md"
-              onEnded={() => {
-                unlockScroll();
-                document.body.classList.remove("hide-navbar");
-                onComplete?.();
-              }}
-            />
-          )}
 
-          {!skipped && (
+        {!confirmedStart ? (
+          <>
+            <div className="text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-cyan-400/80">
+              System loaded. Begin sequence?
+            </div>
             <button
-              onClick={handleSkip}
-              className="text-[11px] text-cyan-400 underline hover:text-cyan-200 transition"
+              onClick={handleConfirm}
+              className="px-4 py-2 text-[11px] sm:text-xs bg-cyan-500 hover:bg-cyan-400 text-black rounded-full transition"
             >
-              Skip Intro
+              I’m ready
             </button>
+          </>
+        ) : (
+          <>
+            {!isMobile && (
+              <video
+                src="/videos/bootup_mobile.mp4"
+                autoPlay
+                playsInline
+                className="rounded-md w-[90%] sm:w-[85%] max-w-[460px] -mt-4 mb-2"
+                onEnded={() => {
+                  unlockScroll();
+                  document.body.classList.remove("hide-navbar");
+                  onComplete?.();
+                }}
+              />
+            )}
+            {!skipped && (
+              <button
+              onClick={handleSkip}
+              className="skip-intro-button mt-4"
+              >
+                <span className="glitch-text">Skip Intro</span>
+                </button>
+              )}
+            </>
           )}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
