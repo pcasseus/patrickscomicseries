@@ -43,12 +43,13 @@ const ProfileBody = ({
         )}
       </div>
 
-      <div className="mb-6">
+      {/* Replay Terminal Intro Button */}
+      <div className="mb-6 flex justify-start">
         <button
-          onClick={replayIntro}
-          className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-all text-sm"
+        onClick={replayIntro}
+        className="text-xs font-mono tracking-wider text-yellow-300 border border-yellow-500 px-4 py-1.5 rounded transition-all duration-300 hover:bg-yellow-300 hover:text-black shadow-md hover:shadow-yellow-500/50"
         >
-          Replay Character Intro
+          REPLAY ACCESS TERMINAL INTRO
         </button>
       </div>
 
@@ -74,6 +75,7 @@ const ProfileBody = ({
           )}
         </Modal>
       )}
+
       {selectedRelation && (
         <Modal title={selectedRelation.name} onClose={() => setSelectedRelation(null)}>
           <div className="flex flex-col items-center text-center">
@@ -94,6 +96,7 @@ const ProfileBody = ({
           </div>
         </Modal>
       )}
+
       {selectedItem && (
         <Modal title={selectedItem.name} onClose={() => setSelectedItem(null)}>
           <p>{selectedItem.description}</p>

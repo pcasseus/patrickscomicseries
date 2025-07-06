@@ -1,5 +1,5 @@
 import React from 'react';
-import '../profiles/AccessIntro.css';
+import '../ui/AICoreCircle.css';
 
 const AICoreCircle = ({ isSpeaking = false, size = 160 }) => {
   return (
