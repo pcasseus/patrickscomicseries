@@ -7,8 +7,8 @@ export default function AccessIntro({ name, shouldPlay = false, onComplete, forc
     shouldRender,
     exiting,
     currentLine,
-    overrideText,
     exitEarly,
+    overrideText,
   } = useAccessIntro(name, onComplete, forceExit);
 
   if (!shouldPlay || !shouldRender) return null;
