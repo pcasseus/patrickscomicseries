@@ -95,3 +95,106 @@
     transform: translateX(100%);
   }
 }
+
+/* Add this at the bottom of AIBootup.css if not already present */
+
+.ai-core-wrapper {
+  transform: scale(0.75);
+}
+@media (min-width: 640px) {
+  .ai-core-wrapper {
+    transform: scale(1);
+  }
+}
+
+.ai-core-wrapper {
+  transform: scale(0.75);
+}
+@media (min-width: 640px) {
+  .ai-core-wrapper {
+    transform: scale(1);
+  }
+}
+
+video {
+  margin-top: -1rem;
+  mix-blend-mode: screen;
+}
+
+/* AI Core downward shift on video play */
+.down-shift {
+  transform: translateY(36px);
+}
+
+.skip-intro-button {
+  font-size: 11px;
+  font-family: monospace;
+  color: #67e8f9;
+  border: 1px solid #67e8f9;
+  background-color: rgba(0, 255, 255, 0.05);
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 6px rgba(103, 232, 249, 0.3);
+}
+
+.skip-intro-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(103, 232, 249, 0.6);
+  color: #a5f3fc;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  color: #67e8f9;
+  background: transparent;
+}
+
+.glitch-text::before {
+  animation: glitchTop 1.5s infinite linear alternate-reverse;
+  top: -1px;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text::after {
+  animation: glitchBottom 1.5s infinite linear alternate-reverse;
+  top: 1px;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchTop {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes glitchBottom {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(-1px);
+  }
+}

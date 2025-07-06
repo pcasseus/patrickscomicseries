@@ -1,4 +1,3 @@
-// src/components/profiles/AccessIntroDisplay.jsx
 import React from "react";
 import AICoreCircle from "../ui/AICoreCircle";
 import "./AccessIntro.css";
@@ -6,52 +5,57 @@ import "./AccessIntro.css";
 export default function AccessIntroDisplay({ name, exiting, currentLine, overrideText, onSkip }) {
   return (
     <div className={`access-intro ${exiting ? "fade-out" : ""}`}>
-      {/* Matrix BG & Scanner */}
+      {/* Matrix BG */}
       <div className="matrix-bg" />
-      <div className="scanner-bar" />
+
+      {/* ACCESS DENIED ALERT */}
+      {currentLine === 1 && (
+        <div className="fullscreen-alert red-alert">
+          ACCESS DENIED
+        </div>
+      )}
+
+      {/* OVERRIDE DETECTED ALERT */}
+      {currentLine === 2 && (
+        <div className="fullscreen-alert blue-alert">
+          {overrideText.toUpperCase()}
+        </div>
+      )}
 
       <div className="terminal-box">
         {/* Skip Button */}
         <button
           onClick={onSkip}
-          className="absolute top-4 right-6 z-30 text-xs text-green-400 border border-green-600 px-3 py-1 rounded hover:bg-green-800/20 transition-all"
+          className="absolute top-4 right-6 z-30 text-xs text-red-400 border border-red-600 px-3 py-1 rounded hover:bg-red-800/20 transition-all"
         >
           SKIP INTRO
         </button>
 
-        {/* Fallback Hint */}
-        {currentLine < 1 && (
-          <div className="text-red-400 text-xs mt-4 text-center italic animate-pulse">
-            Having trouble? You can skip the intro below.
-          </div>
-        )}
-
         {/* AI Core */}
         <div className="ai-circle-container">
-          <AICoreCircle isSpeaking={currentLine < 4} />
+          <AICoreCircle isSpeaking={currentLine < 5} />
         </div>
 
         {/* Terminal Text */}
         <div className="terminal-text">
-          <div className={`glitch-line ${currentLine >= 0 ? "visible" : ""}`}>
-            &gt; CIVILIAN ACCESS DETECTED
-          </div>
-
-          <div className={`glitch-line ${currentLine >= 1 ? "visible" : ""}`}>
-            &gt; {overrideText.toUpperCase()}
-          </div>
-
-          <div className={`glitch-line ${currentLine >= 2 ? "visible" : ""}`}>
-            &gt; UNLOCKING OPERATIVE FILE
-          </div>
-
-          <div className={`glitch-line ${currentLine >= 3 ? "visible" : ""}`}>
-            &gt; SUBJECT: <span className="highlight">{name}</span>
-          </div>
-
-          <div className={`auth-box ${currentLine >= 3 ? "visible" : ""}`}>
-            [CLASSIFIED ACCESS AUTHORIZED]
-          </div>
+          {currentLine >= 0 && (
+            <div className={`typewriter-line warning-red ${currentLine > 0 ? "done" : ""}`}>
+              &gt; WARNING: ACCESSING RESTRICTED AGENT FILE
+            </div>
+          )}
+          {currentLine >= 3 && (
+            <div className={`typewriter-line ${currentLine > 3 ? "done" : ""}`}>
+              &gt; ENTERING FILE
+            </div>
+          )}
+          {currentLine >= 4 && (
+            <>
+              <div className={`typewriter-line ${currentLine > 4 ? "done" : ""}`}>
+                &gt; SUBJECT: <span className="highlight">{name}</span>
+              </div>
+              <div className="auth-box">[CLASSIFIED ACCESS AUTHORIZED]</div>
+            </>
+          )}
         </div>
       </div>
     </div>
