@@ -1,0 +1,288 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  background-color: black;
+}
+
+.grid-card {
+  background-color: #0a0a0a;
+  border: 2px solid #ff2c2c;
+  color: #ff2c2c;
+  font-family: "Share Tech Mono", monospace;
+  position: relative;
+  padding: 1rem;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 8px #ff2c2c66;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.grid-card:hover {
+  animation: glitch-border 0.2s ease-in-out;
+  box-shadow: 0 0 15px #ff0000aa;
+}
+
+.grid-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    #ff000005 3px
+  );
+  pointer-events: none;
+  animation: flicker 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes glitch-border {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-1px, 1px); }
+  66% { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.grid-heading {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #ff2c2c;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.grid-image-frame {
+  position: relative;
+  border: 2px solid #ff2c2c;
+  margin: 1rem 0;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+}
+
+.grid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.5) brightness(1.1);
+}
+
+.grid-image-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.1) 0px,
+    rgba(255, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  animation: wirePulse 3s linear infinite;
+  z-index: 2;
+}
+
+@keyframes wirePulse {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+.grid-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  text-align: center;
+  border-top: 2px solid #ff2c2c;
+  border-bottom: 2px solid #ff2c2c;
+  width: 100%;
+  padding: 0.3rem 0;
+}
+
+.grid-info {
+  width: 100%;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.grid-info span {
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+.grid-info ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+.grid-info li {
+  list-style: square;
+}
+
+.grid-threat {
+  border: 1px solid #ff2c2c;
+  padding: 0.6rem;
+  text-align: center;
+  background-color: rgba(255, 0, 0, 0.08);
+  margin-top: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.grid-threat.maximum {
+  background-color: rgba(255, 0, 0, 0.12);
+}
+
+.grid-threat.unscalable {
+  background-color: rgba(255, 0, 128, 0.08);
+  color: #ff66cc;
+  font-style: italic;
+}
+
+/* Glow ONLY on Logan's threat block */
+.grid-card:nth-child(3) .grid-threat.maximum {
+  box-shadow: 0 0 8px red, 0 0 16px crimson, 0 0 24px red;
+  animation: electricPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes electricPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px red, 0 0 16px crimson, 0 0 12px red;
+  }
+  50% {
+    box-shadow: 0 0 16px red, 0 0 32px crimson, 0 0 24px red;
+  }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  5% { opacity: 0.985; }
+  10% { opacity: 1; }
+  15% { opacity: 0.98; }
+  20% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ========================
+   RESPONSIVE: TABLET
+======================== */
+@media (max-width: 1024px) {
+  .grid-heading {
+    font-size: 1.5rem;
+  }
+
+  .grid-image-frame {
+    height: 300px;
+  }
+
+  .grid-name {
+    font-size: 1.1rem;
+  }
+
+  .grid-info {
+    font-size: 0.85rem;
+  }
+}
+
+/* ========================
+   RESPONSIVE: MOBILE
+======================== */
+@media (max-width: 768px) {
+  .grid-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .grid-card {
+    padding: 0.75rem;
+  }
+
+  .grid-heading {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
+
+  .grid-image-frame {
+    height: 240px;
+  }
+
+  .grid-name {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+  }
+
+  .grid-info {
+    font-size: 0.8rem;
+  }
+
+  .grid-threat {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+}
+
+/* ========================
+   RESPONSIVE: HORIZONTAL MOBILE
+======================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .grid-image-frame {
+    height: 180px;
+  }
+
+  .grid-heading {
+    font-size: 1.2rem;
+  }
+
+  .grid-info {
+    font-size: 0.75rem;
+  }
+
+  .grid-threat {
+    font-size: 0.7rem;
+  }
+}
+
+/* ========== CENTER GRID ON MOBILE ========== */
+@media (max-width: 768px) {
+  .grid-container {
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .grid-card {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+/* ========== FOR SMALLER DEVICES (iPhone SE, etc) ========== */
+@media (max-width: 420px) {
+  .grid-card {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .grid-image-frame {
+    height: 220px;
+  }
+}

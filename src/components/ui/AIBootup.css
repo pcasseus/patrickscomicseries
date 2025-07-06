@@ -1,0 +1,97 @@
+/* AIBootup.css */
+
+/* Root panel: full screen, safe area, mobile-friendly */
+.ai-access-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100dvh; /* Better for mobile vs 100vh */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  background-color: black;
+  color: #67e8f9;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Fallback for browsers that don't support env() */
+@supports not (padding: env(safe-area-inset-top)) {
+  .ai-access-panel {
+    padding: 0;
+  }
+}
+
+/* Fade animations */
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+/* Optional scroll unlock indicator */
+.scroll-unlocked {
+  pointer-events: auto;
+}
+
+/* Glitch scan effect (if used with span) */
+.glitch-scan {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.glitch-scan::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(103, 232, 249, 0.4) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: scan 1.5s linear infinite;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
