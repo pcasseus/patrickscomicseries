@@ -34,10 +34,9 @@ function CharacterGallery() {
 
   return (
     <div className="relative min-h-screen bg-black text-white font-mono px-4 sm:px-6 py-12">
-      {/* Matrix Background */}
+      {/* Background Layer */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 opacity-90" />
-        <div className="absolute inset-0 animate-scroll-matrix bg-[url('/matrix.gif')] bg-cover bg-center opacity-[0.05]" />
       </div>
 
       {/* HUD */}
