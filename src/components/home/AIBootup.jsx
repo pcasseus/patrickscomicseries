@@ -18,7 +18,7 @@ const AIBootup = ({ onComplete }) => {
   const handleConfirm = () => {
     setConfirmedStart(true);
 
-    const audio = new Audio("/voice/bootup_mobile.mp3");
+    const audio = new Audio("/sfx/bootup_mobile.mp3");
     audio.volume = 1;
     audio.play();
     audio.onended = () => {
