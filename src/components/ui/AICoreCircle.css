@@ -1,11 +1,10 @@
-/* AI Core */
+
 .ai-circle-container {
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
 }
 
-/* === AI Core Circle Styles === */
 .ai-circle {
   position: relative;
   border-radius: 9999px;
