@@ -2,14 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ✅ Scroll restoration fix */
 html, body {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* Optional: Ensure #root supports scrolling */
 #root {
   min-height: 100%;
   display: flex;
@@ -44,7 +42,6 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Cursor glow effect */
 .cursor-glow {
   position: relative;
 }
@@ -65,7 +62,6 @@ body {
   opacity: 1;
 }
 
-/* ⚡ Enhanced blink animation */
 @keyframes blink {
   0%, 100% {
     opacity: 1;
@@ -83,7 +79,6 @@ body {
   animation: blink 1s infinite;
 }
 
-/* Tailwind utility extensions */
 @layer utilities {
   .perspective {
     perspective: 1500px;
@@ -99,7 +94,6 @@ body {
   }
 }
 
-/* Scanline background */
 @keyframes scanlines {
   0% {
     background-position: 0 0;
@@ -109,7 +103,6 @@ body {
   }
 }
 
-/* Matrix-style slow scroll */
 @keyframes scroll-matrix {
   0% {
     background-position: 0 0;
@@ -122,7 +115,6 @@ body {
   animation: scroll-matrix 40s linear infinite;
 }
 
-/* CRT scanline overlay */
 .scanlines::before {
   content: "";
   position: absolute;
