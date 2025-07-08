@@ -19,23 +19,18 @@ const TrilogyProgressPanel = () => {
 
   return (
     <div className="w-full max-w-sm bg-black/70 border border-green-600 rounded-lg p-4 backdrop-blur-md animate-fadeIn shadow-lg flex flex-col space-y-3 relative overflow-hidden">
-      {/* Holographic Glow Behind Title */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-64 h-64 bg-green-500/10 blur-2xl rounded-full animate-pulse-spin z-0 pointer-events-none" />
 
-      {/* System Feed Tag */}
       <div className="text-[10px] text-lime-300 uppercase tracking-wider bg-black/60 px-2 py-1 rounded-sm border border-lime-400 w-fit z-10">
         System Feed: Archive Stable
       </div>
 
-      {/* Title */}
-      <h2 className="text-lg text-green-400 font-bold relative z-10">📗 Trilogy Progress</h2>
+=      <h2 className="text-lg text-green-400 font-bold relative z-10">📗 Trilogy Progress</h2>
       <p className="text-xs text-gray-400 leading-relaxed relative z-10">
         All draft phases completed. The trilogy is now fully written and preserved.
       </p>
 
-      {/* Progress Bar and Circle */}
       <div className="flex items-center gap-4 relative z-10">
-        {/* Circular Indicator */}
         <div className="relative w-20 h-20">
           <svg className="absolute top-0 left-0 w-full h-full z-10" viewBox="0 0 36 36">
             <path
@@ -59,7 +54,6 @@ const TrilogyProgressPanel = () => {
           </div>
         </div>
 
-        {/* Horizontal Progress */}
         <div className="flex-1 w-full">
           <div className="flex justify-between text-xs text-emerald-300 font-mono mb-1">
             <span>Draft Completion</span>
@@ -73,7 +67,6 @@ const TrilogyProgressPanel = () => {
         </div>
       </div>
 
-      {/* Trilogy Breakdown */}
       <div className="w-full border border-green-600 rounded-md p-3 bg-black/50 shadow-[0_0_12px_rgba(34,197,94,0.2)] text-sm text-white space-y-2 z-10">
         <div>
           <span className="text-emerald-400 font-bold">✔ Draft Complete</span><br />
@@ -92,7 +85,6 @@ const TrilogyProgressPanel = () => {
         </div>
       </div>
 
-      {/* Status Footer */}
       <div className="mt-4 border-t border-green-900 pt-3 text-green-300 text-[11px] font-mono z-10">
         <div className="text-green-400 font-bold tracking-wider mb-1">
           STATUS ▸ TRILOGY ARCHIVED
@@ -108,7 +100,6 @@ const TrilogyProgressPanel = () => {
         </div>
       </div>
 
-      {/* Enlarged Logo Footer */}
       <div className="mt-auto pt-8 flex justify-center relative z-10">
         <img
           src="/logo.jpg"

@@ -9,7 +9,7 @@ const celeste = {
   primaryPower: "Entropikinesis",
   stats: {
     affiliation: "Iztan",
-    gender: "Male",
+    gender: "Female",
     height: "5'4\"",
     weight: "117 lbs",
     eyes: "Dark Brown",
