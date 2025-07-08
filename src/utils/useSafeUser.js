@@ -1,4 +1,3 @@
-// src/utils/useSafeUser.js
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
@@ -16,14 +15,12 @@ export default function useSafeUser() {
       return;
     }
 
-    // Extract public-safe fields
     setSafeUser({
       uid: firebaseUser.uid,
       displayName: firebaseUser.displayName || "",
       photoURL: firebaseUser.photoURL || "",
     });
 
-    // Fetch private fields from /privateData/{uid}
     const fetchPrivate = async () => {
       try {
         const ref = doc(db, "privateData", firebaseUser.uid);

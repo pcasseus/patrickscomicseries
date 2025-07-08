@@ -9,7 +9,7 @@ const talia = {
   primaryPower: "Atomic Echo",
   stats: {
     affiliation: "Iztan",
-    gender: "Male",
+    gender: "Female",
     height: "5'11\"",
     weight: "160 lbs",
     eyes: "Dark Brown",
