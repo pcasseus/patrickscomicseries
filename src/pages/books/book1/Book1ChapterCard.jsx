@@ -16,10 +16,11 @@ export default function Book1ChapterCard({
       onMouseLeave={() => setHovered(null)}
       className="relative bg-black/80 border-2 rounded-xl p-4 transition-all duration-300 border-zinc-700 opacity-60"
     >
+      {/* Chapter art */}
       <div className="mb-3 relative overflow-hidden border border-green-500 rounded-md">
         <img
           src={`/chapter-art/ch${chapter.id}.jpg`}
-          alt={`Art for ${chapter.title}`}
+          alt={`Art for Chapter ${chapter.id}`}
           onError={(e) => (e.currentTarget.src = "/dragonballs.jpg")}
           className="object-cover w-full h-40 rounded"
         />
@@ -29,13 +30,14 @@ export default function Book1ChapterCard({
           </div>
         )}
       </div>
+
+      {/* Chapter label */}
       <h3 className="text-yellow-300 font-bold text-lg flex justify-between items-center mb-2">
-        {chapter.title}
+        Chapter {chapter.id}
         <FaLock />
       </h3>
 
-      {/* Subtitle intentionally removed */}
-
+      {/* Buttons */}
       <div className="flex justify-between mt-2 text-sm">
         <button
           disabled

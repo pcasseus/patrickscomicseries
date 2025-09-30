@@ -11,7 +11,6 @@ body {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
   background: black;
 }
 
@@ -25,34 +24,107 @@ body {
   pointer-events: none;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  /* softens background */
+  z-index: 1;
+}
+
 .terminal-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 2rem;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   position: relative;
   z-index: 2;
   flex-wrap: wrap;
+}
+
+.terminal.panel {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #00ff99;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  padding: 1.5rem;
+  height: 600px;
+  overflow-y: auto;
+  flex: 1 1 600px;
+  max-width: 700px;
+}
+
+.header h1 {
+  color: #00ff66;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.header p {
+  color: #66ffcc;
+  font-style: italic;
+  font-size: 0.75rem;
+  border-bottom: 1px solid #00ff66;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.commit-entry {
+  padding: 0.75rem 1rem;
+  border-left: 3px solid #0f0;
+  background: rgba(0, 255, 0, 0.05);
+}
+
+.commit-message {
+  color: #00ff99;
+  font-weight: bold;
+  margin: 0 0 0.25rem;
+}
+
+.commit-meta {
+  font-size: 0.75rem;
+  color: #66ffcc;
+}
+
+.commit-meta a {
+  color: #ffff66;
+  text-decoration: underline;
+}
+
+.view-more {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.view-more a {
+  font-size: 0.85rem;
+  color: #66ccff;
+  text-decoration: underline;
+}
+
+.loading {
+  color: #999;
+  font-style: italic;
 }
 
 @media (max-width: 768px) {
   .terminal-container {
     flex-direction: column;
     align-items: stretch;
-    gap: 1.5rem;
-    padding: 2rem 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .broadcast-root {
-    overflow-y: auto;
   }
 
-  .terminal-container {
-  flex-wrap: wrap;
-  align-items: stretch;
-  align-content: stretch;
-}
+  .terminal.panel {
+    height: auto;
+    max-height: 500px;
+  }
 }

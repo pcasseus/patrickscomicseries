@@ -21,7 +21,6 @@ export const FirebaseProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔄 Fetch all users (excluding those in privacyMode)
   useEffect(() => {
     if (!isAuthenticated) return;
     const q = query(collection(db, "users"), orderBy("lastActive", "desc"));
@@ -34,7 +33,6 @@ export const FirebaseProvider = ({ children }) => {
     return () => unsub();
   }, [isAuthenticated]);
 
-  // 🔔 Load user-specific notifications
   useEffect(() => {
     if (!uid) return;
     const ref = collection(db, "users", uid, "notifications");

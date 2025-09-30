@@ -84,8 +84,25 @@ function CharacterGallery() {
       {/* Grid */}
       <div className="relative z-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-6">
         {filtered.map((char) => (
-          <div key={char.slug} onClick={() => handleCardClick(char.slug)} className="cursor-pointer">
+          <div
+            key={char.slug}
+            onClick={() => {
+              if (!char.comingSoon) handleCardClick(char.slug);
+            }}
+            className={`relative ${
+              char.comingSoon
+                ? "cursor-not-allowed opacity-60 pointer-events-none"
+                : "cursor-pointer"
+            }`}
+          >
             <CharacterCard character={char} />
+
+            {/* Overlay for Coming Soon */}
+            {char.comingSoon && (
+              <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded text-yellow-300 font-bold text-lg">
+                Coming Soon
+              </div>
+            )}
           </div>
         ))}
       </div>
