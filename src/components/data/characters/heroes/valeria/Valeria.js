@@ -11,7 +11,7 @@ import abilities1 from "./abilities1.js";
 const abilities = [...abilities1];
 
 const valeria = {
-  id: "#006",
+  id: "#007",
   name: "Valeria Adair-Taylor",
   image: "/valeria.jpg",
   class: "Human Class",
