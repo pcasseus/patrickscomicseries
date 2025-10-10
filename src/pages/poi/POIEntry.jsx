@@ -9,19 +9,16 @@ export default function POIEntry() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-
+    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    if (globeEl.current) {
-      globeEl.current.controls().autoRotate = true;
-      globeEl.current.controls().autoRotateSpeed = 0.6;
-    }
+    if (!globeEl.current) return;
+    const controls = globeEl.current.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.6;
   }, []);
 
   return (
@@ -35,15 +32,26 @@ export default function POIEntry() {
         className="poi-globe"
       />
 
-      <div className="poi-entry-overlay">
-        <h1 className="poi-entry-title">ACCESS TERMINAL: KENSHINVERSE</h1>
-        <p className="poi-entry-sub">Spinning up global interface...</p>
+      {/* Scanlines + vignette */}
+      <div className="poi-entry-scanlines" />
+      <div className="poi-entry-vignette" />
+
+      <div className="poi-entry-overlay glass">
+        <h1 className="poi-entry-title typewriter">ACCESS TERMINAL: KENSHINVERSE</h1>
+        <p className="poi-entry-sub glow">Spinning up global interface… establishing secure channel</p>
+
         <button
-          className="poi-entry-button"
+          className="poi-entry-button holo pulse"
           onClick={() => navigate('/lore/pois/map')}
         >
           ENTER INTERFACE →
         </button>
+
+        <div className="poi-entry-hints">
+          <span className="dot online" /> STATUS: ONLINE
+          <span className="sep" />
+          <span className="kbd">ESC</span> to exit
+        </div>
       </div>
     </div>
   );

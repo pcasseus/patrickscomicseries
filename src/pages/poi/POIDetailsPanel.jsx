@@ -7,33 +7,43 @@ import LoreTab from './LoreTab';
 import './css/POIDetailsPanel.css';
 import './css/POITabs.css';
 
-
-export default function POIDetailsPanel({ selected, setSelected }) {
-  const [tab, setTab] = useState("details");
+export default function POIDetailsPanel({ selected }) {
+  const [tab, setTab] = useState('details');
 
   const renderTab = () => {
     switch (tab) {
-      case "details": return <DetailsTab selected={selected} />;
-      case "characters": return <CharactersTab selected={selected} />;
-      case "lore": return <LoreTab selected={selected} />;
-      default: return null;
+      case 'details':
+        return <DetailsTab selected={selected} />;
+      case 'characters':
+        return <CharactersTab selected={selected} />;
+      case 'lore':
+        return <LoreTab selected={selected} />;
+      default:
+        return null;
     }
   };
 
   return (
-    <div className="poi-sidebar">
+    <aside className="poi-sidebar glass">
       <div className="poi-sidebar-header">
         <h2 className="poi-sidebar-title">{selected.name}</h2>
       </div>
 
       <div className="poi-sidebar-tabs">
-        {["details", "characters", "lore"].map((key) => (
+        {[
+          { k: 'details', label: 'Details', icon: 'ℹ️' },
+          { k: 'characters', label: 'Characters', icon: '👤' },
+          { k: 'lore', label: 'Lore', icon: '📖' },
+        ].map(({ k, label, icon }) => (
           <button
-            key={key}
-            onClick={() => setTab(key)}
-            className={`poi-tab ${tab === key ? 'active' : ''}`}
+            key={k}
+            onClick={() => setTab(k)}
+            className={`poi-tab ${tab === k ? 'active' : ''}`}
+            aria-pressed={tab === k}
+            aria-label={label}
           >
-            {key.toUpperCase()}
+            <span className="poi-tab-ico">{icon}</span>
+            <span className="poi-tab-label">{label}</span>
           </button>
         ))}
       </div>
@@ -42,15 +52,15 @@ export default function POIDetailsPanel({ selected, setSelected }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -16 }}
             transition={{ duration: 0.25 }}
           >
             {renderTab()}
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </aside>
   );
 }
