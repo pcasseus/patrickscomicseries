@@ -1,4 +1,3 @@
-// src/pages/poi/components/POILocationList.jsx
 import React, { useState } from 'react';
 import { locations } from './locations';
 import './css/POILocationList.css';
@@ -8,15 +7,15 @@ export default function POILocationList({ selected, setSelected }) {
   const [confirmReveal, setConfirmReveal] = useState(false);
 
   const handleRevealClick = () => {
-    const confirmed = window.confirm(
+    const ok = window.confirm(
       'These locations contain major spoilers from all three books. Are you absolutely sure you want to reveal them?'
     );
-    if (confirmed) setConfirmReveal(true);
+    if (ok) setConfirmReveal(true);
   };
 
   if (showWarning && !confirmReveal) {
     return (
-      <div className="poi-spoiler-block">
+      <div className="poi-spoiler-block glass">
         <div className="poi-spoiler-warning">
           ⚠️ Warning: This list contains major location spoilers across all three books.
           Viewing these may spoil critical plot points and twists.
@@ -30,7 +29,7 @@ export default function POILocationList({ selected, setSelected }) {
 
   if (!confirmReveal) {
     return (
-      <div className="poi-spoiler-block">
+      <div className="poi-spoiler-block glass">
         <div className="poi-spoiler-warning">
           Are you sure you want to reveal these locations? This will unlock spoiler-heavy content.
         </div>
@@ -42,17 +41,17 @@ export default function POILocationList({ selected, setSelected }) {
   }
 
   return (
-    <div className="poi-list-sidebar">
+    <div className="poi-list-sidebar glass">
       <div className="poi-list-title">ACCESS POINTS</div>
       <ul className="poi-list-scroll">
-        {locations.map((loc, i) => (
+        {locations.map((loc) => (
           <li
-            key={i}
+            key={loc.slug}
             onClick={() => setSelected(loc)}
-            className={`poi-list-item ${selected.name === loc.name ? 'active' : ''}`}
+            className={`poi-list-item ${selected.slug === loc.slug ? 'active' : ''}`}
           >
             <span className="poi-dot" />
-            {loc.name}
+            <span className="poi-list-name">{loc.name}</span>
           </li>
         ))}
       </ul>

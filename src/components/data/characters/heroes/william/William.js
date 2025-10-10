@@ -12,7 +12,7 @@ const abilities = [...abilities1];
 
 const william = {
   id: "#008",
-  name: "Valeria Adair-Taylor",
+  name: "William Hutton",
   image: "/william.jpg",
   class: "Human Class",
   status: "Active",

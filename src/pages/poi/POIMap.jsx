@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -8,17 +8,10 @@ import POIDetailsPanel from './POIDetailsPanel';
 import './css/POIMapLayout.css';
 import './css/POIIcons.css';
 
-const pinIcon = new L.DivIcon({
-  html: `<div class='poi-pin-icon'></div>`,
-  className: '',
-  iconSize: [24, 24],
-  iconAnchor: [12, 24],
-});
-
 function FocusMap({ lat, lng }) {
   const map = useMap();
   useEffect(() => {
-    map.setView([lat, lng], 6, { animate: true });
+    map.setView([lat, lng], 8, { animate: true });
   }, [lat, lng, map]);
   return null;
 }
@@ -28,35 +21,37 @@ export default function POIMap() {
   const [selected, setSelected] = useState(locations[0]);
   const navigate = useNavigate();
 
+  // memoized pin creator so active marker can glow/pulse
+  const buildIcon = useMemo(
+    () => (isActive) =>
+      new L.DivIcon({
+        html: `<div class='poi-pin-icon ${isActive ? 'active pulse' : ''}'></div>`,
+        className: '',
+        iconSize: [24, 24],
+        iconAnchor: [12, 24],
+      }),
+    []
+  );
+
   const resetView = () => {
     if (mapRef.current) mapRef.current.setView([37.8, -96], 4);
   };
-
-  const zoomIn = () => {
-    if (mapRef.current) mapRef.current.zoomIn();
-  };
-
-  const zoomOut = () => {
-    if (mapRef.current) mapRef.current.zoomOut();
-  };
-
+  const zoomIn = () => mapRef.current?.zoomIn();
+  const zoomOut = () => mapRef.current?.zoomOut();
   const focusOnSelected = () => {
-    if (mapRef.current && selected) {
-      mapRef.current.setView([selected.lat, selected.lng], 10);
-    }
+    if (mapRef.current && selected) mapRef.current.setView([selected.lat, selected.lng], 10);
   };
-
   const moveMap = (dx, dy) => {
     if (!mapRef.current) return;
     const map = mapRef.current;
-    const center = map.getCenter();
-    map.setView([center.lat + dy, center.lng + dx]);
+    const { lat, lng } = map.getCenter();
+    map.setView([lat + dy, lng + dx]);
   };
 
   return (
     <div className="poi-map-fixed-wrapper">
       {/* HEADER */}
-      <div className="poi-map-header">
+      <div className="poi-map-header glass">
         <div className="poi-map-header-inner">
           <button className="poi-map-exit" onClick={() => navigate('/lore/pois')}>
             ← Exit to Access Terminal
@@ -70,10 +65,7 @@ export default function POIMap() {
           </div>
 
           <div className="poi-map-clock">
-            {new Date().toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
         <div className="poi-scanline" />
@@ -84,39 +76,45 @@ export default function POIMap() {
         <POILocationList selected={selected} setSelected={setSelected} />
 
         <div className="poi-map-pane">
-          <div className="poi-map-wrapper">
+          <div className="poi-map-wrapper glass">
             <MapContainer
               center={[selected.lat, selected.lng]}
               zoom={6}
               scrollWheelZoom
               zoomControl
-              ref={mapRef}
-              className="poi-leaflet map-shrinked"
+              whenCreated={(map) => (mapRef.current = map)}
+              className="poi-leaflet"
             >
+              {/* Dark sci-fi basemap (Carto Dark Matter) */}
               <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
+                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                attribution="&copy; OpenStreetMap contributors &copy; CARTO"
               />
-              {locations.map((loc, i) => (
-                <Marker
-                  key={i}
-                  position={[loc.lat, loc.lng]}
-                  icon={pinIcon}
-                  eventHandlers={{ click: () => setSelected(loc) }}
-                >
-                  <Popup>
-                    <strong>{loc.name}</strong>
-                    <br />
-                    {loc.description}
-                  </Popup>
-                </Marker>
-              ))}
+
+              {locations.map((loc) => {
+                const isActive = selected.slug === loc.slug;
+                return (
+                  <Marker
+                    key={loc.slug}
+                    position={[loc.lat, loc.lng]}
+                    icon={buildIcon(isActive)}
+                    eventHandlers={{ click: () => setSelected(loc) }}
+                  >
+                    <Popup>
+                      <strong>{loc.name}</strong>
+                      <br />
+                      {loc.description}
+                    </Popup>
+                  </Marker>
+                );
+              })}
+
               <FocusMap lat={selected.lat} lng={selected.lng} />
             </MapContainer>
           </div>
 
           {/* MAP FOOTER CONTROLS */}
-          <div className="poi-map-footer-controls">
+          <div className="poi-map-footer-controls glass">
             <div className="poi-map-btn-group">
               <button onClick={resetView}>Reset</button>
               <button onClick={zoomIn}>Zoom In</button>

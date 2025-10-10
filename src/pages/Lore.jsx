@@ -32,11 +32,18 @@ export default function Lore() {
             </p>
           </Link>
 
-          {/* Locked POI Card */}
-          <div className="opacity-70 border border-yellow-500 p-6 rounded-xl bg-yellow-900/60 text-yellow-300 select-none">
-            <h2 className="text-xl font-bold mb-2">📍 Points of Interest</h2>
-            <p className="text-gray-300">🔧 Under Maintenance — Access Temporarily Locked</p>
-          </div>
+          {/* Unlocked POI Card */}
+          <Link
+            to="/lore/pois"
+            className="group bg-yellow-900/90 hover:bg-yellow-800/90 border border-yellow-500 p-6 rounded-xl shadow-lg relative transition-all duration-300 card-hover-glow"
+          >
+            <h2 className="text-xl font-bold text-yellow-300 mb-2 group-hover:underline underline-offset-4">
+              📍 Points of Interest
+            </h2>
+            <p className="text-gray-300">
+              Discover key locations, bases, and landmarks across the KenshinVerse.
+            </p>
+          </Link>
 
           {/* Future Teases */}
           <div className="opacity-30 border border-dashed border-yellow-500 p-6 rounded-xl bg-yellow-900/50 text-yellow-300 pointer-events-none select-none">
