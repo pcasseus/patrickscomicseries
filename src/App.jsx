@@ -14,21 +14,18 @@ import ResponsiveInterface from "./components/home/ResponsiveInterface";
 
 // 👤 Characters
 import CharacterGallery from "./components/CharacterGallery";
-import CharacterProfile from "./components/profiles/CharacterProfile";
 import SecureCharacterProfile from "./components/profiles/SecureCharacterProfile";
 
 // 📺 Broadcast
 import Broadcast from "./pages/broadcast/Broadcast";
 
-// 📚 Books
-import Book1 from "./pages/books/book1/Book1";
-import Book2 from "./pages/books/book2/Book2";
-import Book3 from "./pages/books/book3/Book3";
-
 // 🧭 Lore
 import Lore from "./pages/Lore";
 import Races from "./pages/races/Races";
 import POIHub from "./pages/POIHub";
+
+// 📘 Trilogies
+import TrilogyOne from "./pages/trilogies/TrilogyOne";
 
 // 🔐 Auth Pages
 import Login from "./pages/Login";
@@ -49,7 +46,7 @@ function App() {
     return sessionStorage.getItem("bootCompleted") === "true";
   });
 
-  usePreloadVoices(); // ✅ preload speechSynthesis voices early
+  usePreloadVoices();
 
   useEffect(() => {
     const unlock = () => {
@@ -82,15 +79,16 @@ function App() {
 
                   {/* 👤 Characters */}
                   <Route path="/characters" element={<CharacterGallery />} />
-                  <Route path="/characters/:slug" element={<SecureCharacterProfile />} />
+                  <Route
+                    path="/characters/:slug"
+                    element={<SecureCharacterProfile />}
+                  />
 
                   {/* 📺 Broadcast */}
                   <Route path="/broadcast" element={<Broadcast />} />
 
-                  {/* 📚 Books */}
-                  <Route path="/books/book1" element={<Book1 />} />
-                  <Route path="/books/book2" element={<Book2 />} />
-                  <Route path="/books/book3" element={<Book3 />} />
+                  {/* 📘 Trilogy Hub */}
+                  <Route path="/trilogy-1" element={<TrilogyOne />} />
 
                   {/* 🧭 Lore */}
                   <Route path="/lore" element={<Lore />} />
@@ -100,7 +98,10 @@ function App() {
                   {/* 🔐 Auth */}
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                  />
 
                   {/* 📄 About */}
                   <Route path="/about" element={<About />} />

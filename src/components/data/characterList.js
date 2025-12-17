@@ -232,6 +232,7 @@ const allCharacters = [
     slug: "joaquin",
     image: "/joaquin.jpg",
     division: "Civilian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -239,6 +240,7 @@ const allCharacters = [
     slug: "logan",
     image: "/logan.jpg",
     division: "Unaffiliated",
+    book: "Book 1",
     comingSoon: true,
   },
   {
@@ -253,6 +255,7 @@ const allCharacters = [
     slug: "rick",
     image: "/rick.jpg",
     division: "Civilian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -260,6 +263,7 @@ const allCharacters = [
     slug: "michael",
     image: "/michael.jpg",
     division: "Unaffiliated",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -267,6 +271,7 @@ const allCharacters = [
     slug: "kasen",
     image: "/kasen.jpg",
     division: "Unaffiliated",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -274,6 +279,7 @@ const allCharacters = [
     slug: "brianna",
     image: "/brianna.jpg",
     division: "Unaffiliated",
+    book: "Book 1",
     comingSoon: true,
   },
   {
@@ -281,6 +287,7 @@ const allCharacters = [
     slug: "yvonne",
     image: "/yvonne.jpg",
     division: "Unaffiliated",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -288,6 +295,7 @@ const allCharacters = [
     slug: "david",
     image: "/david.jpg",
     division: "Unaffiliated",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -295,6 +303,7 @@ const allCharacters = [
     slug: "anthony",
     image: "/anthony.jpg",
     division: "Aetherian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -302,6 +311,7 @@ const allCharacters = [
     slug: "gabriel",
     image: "/gabriel.jpg",
     division: "Aetherian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -309,6 +319,7 @@ const allCharacters = [
     slug: "mathew",
     image: "/mathew.jpg",
     division: "Aetherian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -316,6 +327,7 @@ const allCharacters = [
     slug: "jose",
     image: "/jose.jpg",
     division: "Aetherian",
+    book: "Book 2",
     comingSoon: true,
   },
 
@@ -373,6 +385,7 @@ const allCharacters = [
     slug: "lola",
     image: "/lola.jpg",
     division: "Civilian",
+    book: "Book 1",
     comingSoon: true,
   },
   {
@@ -380,6 +393,7 @@ const allCharacters = [
     slug: "skyler",
     image: "/skyler.jpg",
     division: "Civilian",
+    book: "Book 2",
     comingSoon: true,
   },
   {
@@ -387,6 +401,7 @@ const allCharacters = [
     slug: "roman",
     image: "/roman.jpg",
     division: "Civilian",
+    book: "Book 3",
     comingSoon: true,
   },
   {
@@ -394,6 +409,7 @@ const allCharacters = [
     slug: "warren",
     image: "/warren.jpg",
     division: "S.T.A.T.I.C.",
+    book: "Book 1",
     comingSoon: true,
   },
 
@@ -402,6 +418,7 @@ const allCharacters = [
     slug: "arian",
     image: "/arian.jpg",
     division: "Alien",
+    book: "Book 3",
     comingSoon: true,
   },
   {
@@ -409,6 +426,7 @@ const allCharacters = [
     slug: "talora",
     image: "/talora.jpg",
     division: "Alien",
+    book: "Book 3",
     comingSoon: true,
   },
   {
@@ -416,6 +434,7 @@ const allCharacters = [
     slug: "wesson",
     image: "/wesson.jpg",
     division: "Alien",
+    book: "Book 3",
     comingSoon: true,
   },
   {
@@ -423,6 +442,7 @@ const allCharacters = [
     slug: "ryven",
     image: "/ryven.jpg",
     division: "Alien",
+    book: "Book 3",
     comingSoon: true,
   },
   {
@@ -430,6 +450,7 @@ const allCharacters = [
     slug: "kyros",
     image: "/kyros.jpg",
     division: "Alien",
+    book: "Book 3",
     comingSoon: true,
   },
 ];

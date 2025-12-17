@@ -1,109 +1,223 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./Broadcast.css";
-import ComingSoon from "./ComingSoon";
+import React, { useState } from "react";
+import {
+  FaInstagram,
+  FaTiktok,
+  FaTwitter,
+  FaGithub,
+} from "react-icons/fa";
 
 export default function Broadcast() {
-  const canvasRef = useRef(null);
-  const [commits, setCommits] = useState([]);
+  return (
+    <div className="min-h-screen bg-black text-white px-4 sm:px-6 py-20">
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+      {/* Header */}
+      <header className="text-center mb-24">
+        <h1 className="text-4xl sm:text-6xl font-extrabold text-green-400 uppercase tracking-[0.3em]">
+          Broadcast
+        </h1>
+        <p className="mt-6 text-gray-400 italic max-w-3xl mx-auto leading-relaxed">
+          Official outward-facing channels for the KenshinVerse.  
+          Follow along for updates, community posts, behind-the-scenes development,
+          and moments from across the universe.
+        </p>
+      </header>
 
-    let animationFrameId;
-    const letters = "01";
-    const fontSize = 16;
-    let columns, drops;
+      {/* ================= DESKTOP ================= */}
+      <section className="hidden md:flex justify-center gap-16 max-w-7xl mx-auto">
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / fontSize);
-      drops = Array(columns).fill(1);
-    }
+        <PhoneCard
+          platform="Instagram"
+          handle="@thekenshinverse"
+          link="https://www.instagram.com/thekenshinverse/"
+          icon={<FaInstagram />}
+          accent="from-pink-500 to-yellow-400"
+          embedSrc="https://www.instagram.com/thekenshinverse/embed"
+        />
 
-    resizeCanvas();
+        <PhoneCard
+          platform="TikTok"
+          handle="@thekenshinverse"
+          link="https://www.tiktok.com/@thekenshinverse"
+          icon={<FaTiktok />}
+          accent="from-cyan-400 to-fuchsia-500"
+          embedSrc="https://www.tiktok.com/embed/@thekenshinverse"
+        />
 
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(0,255,0,0.15)";
-      ctx.font = `${fontSize}px monospace`;
+        {/* X / Twitter — fallback only */}
+        <PhoneCard
+          platform="X / Twitter"
+          handle="@thekenshinvers3"
+          link="https://x.com/thekenshinvers3"
+          icon={<FaTwitter />}
+          accent="from-blue-400 to-sky-500"
+          forceFallback
+        />
 
-      for (let i = 0; i < drops.length; i++) {
-        const char = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      </section>
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.99) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
+      {/* ================= MOBILE ================= */}
+      <section className="md:hidden space-y-14 max-w-sm mx-auto">
 
-      animationFrameId = requestAnimationFrame(drawMatrix);
-    }
+        <MobileCard
+          platform="Instagram"
+          handle="@thekenshinverse"
+          link="https://www.instagram.com/thekenshinverse/"
+          icon={<FaInstagram />}
+          accent="from-pink-500 to-yellow-400"
+        />
 
-    window.addEventListener("resize", resizeCanvas);
-    drawMatrix();
+        <MobileCard
+          platform="TikTok"
+          handle="@thekenshinverse"
+          link="https://www.tiktok.com/@thekenshinverse"
+          icon={<FaTiktok />}
+          accent="from-cyan-400 to-fuchsia-500"
+        />
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", resizeCanvas);
-    };
-  }, []);
+        <MobileCard
+          platform="X / Twitter"
+          handle="@thekenshinvers3"
+          link="https://x.com/thekenshinvers3"
+          icon={<FaTwitter />}
+          accent="from-blue-400 to-sky-500"
+        />
 
-  useEffect(() => {
-    fetch("https://api.github.com/repos/pcasseus/patrickscomicseries/commits")
-      .then((res) => res.json())
-      .then((data) => setCommits(data.slice(0, 5)))
-      .catch((err) => console.error("GitHub fetch failed:", err));
-  }, []);
+      </section>
+
+      {/* ================= GITHUB ================= */}
+      <section className="mt-32 max-w-4xl mx-auto">
+        <div className="border border-green-600/40 rounded-3xl p-10 bg-green-900/10 shadow-xl text-center">
+          <div className="flex justify-center items-center gap-3 mb-5">
+            <FaGithub className="text-green-400 text-3xl" />
+            <h2 className="text-3xl font-bold text-green-400 tracking-wide">
+              Source & Development
+            </h2>
+          </div>
+
+          <p className="text-gray-300 leading-relaxed max-w-2xl mx-auto">
+            Want to see how the KenshinVerse site is built?  
+            The public GitHub repository contains the live codebase and ongoing
+            development history.
+          </p>
+
+          <a
+            href="https://github.com/pcasseus/patrickscomicseries"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-8 border border-green-500 text-green-400 px-8 py-4 rounded-xl hover:bg-green-500 hover:text-black transition font-mono tracking-wide"
+          >
+            View GitHub Repository →
+          </a>
+        </div>
+      </section>
+
+      <footer className="mt-36 text-xs text-green-400 text-center tracking-widest border-t border-green-700 pt-6">
+        STATUS: BROADCAST CHANNELS ACTIVE
+      </footer>
+    </div>
+  );
+}
+
+/* ================= DESKTOP PHONE ================= */
+function PhoneCard({
+  platform,
+  handle,
+  link,
+  icon,
+  accent,
+  embedSrc,
+  forceFallback = false,
+}) {
+  const [embedFailed, setEmbedFailed] = useState(false);
+  const showFallback = forceFallback || embedFailed;
 
   return (
-    <div className="broadcast-root">
-      <canvas ref={canvasRef} className="matrix-canvas"></canvas>
-      <div className="overlay"></div>
-      <div className="terminal-container">
-        <div className="terminal panel">
-          <div className="header">
-            <h1>UPDATES PUSHED</h1>
-            <p>Latest commits from the repository feed.</p>
-          </div>
-          <div className="updates-list">
-            {commits.length === 0 ? (
-              <p className="loading">Loading commit data...</p>
-            ) : (
-              commits.map((commit, idx) => (
-                <div key={idx} className="commit-entry">
-                  <p className="commit-message">{commit.commit.message}</p>
-                  <p className="commit-meta">
-                    {new Date(commit.commit.author.date).toLocaleString()} ·{" "}
-                    <a
-                      href={commit.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View →
-                    </a>
-                  </p>
-                </div>
-              ))
-            )}
-          </div>
-          <div className="view-more">
-            <a
-              href="https://github.com/pcasseus/patrickscomicseries/commits/main"
-              target="_blank"
-              rel="noopener noreferrer"
+    <div className="relative w-[360px]">
+      <div className="rounded-[2.8rem] border border-gray-700 bg-black shadow-[0_0_60px_rgba(0,255,170,0.15)] p-4">
+        <div className="rounded-[2.2rem] border border-gray-800 bg-black overflow-hidden h-[620px] flex flex-col">
+
+          {/* Header */}
+          <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-800">
+            <div
+              className={`text-lg p-2 rounded-full bg-gradient-to-r ${accent} text-black`}
             >
-              View More on GitHub →
-            </a>
+              {icon}
+            </div>
+            <div>
+              <div className="text-sm font-bold">{platform}</div>
+              <div className="text-xs text-gray-400">{handle}</div>
+            </div>
+          </div>
+
+          {/* Content */}
+          {showFallback ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-8 text-gray-400">
+              <div
+                className={`text-6xl mb-4 bg-gradient-to-r ${accent} text-transparent bg-clip-text`}
+              >
+                {icon}
+              </div>
+              <p className="text-sm">
+                Live previews aren’t available here.
+                <br />
+                Tap below to view the page directly.
+              </p>
+            </div>
+          ) : (
+            <iframe
+              src={embedSrc}
+              title={platform}
+              className="flex-1 w-full border-none bg-black"
+              loading="lazy"
+              onError={() => setEmbedFailed(true)}
+            />
+          )}
+
+          {/* CTA */}
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-center py-4 text-sm border-t border-gray-800 hover:bg-gray-900 transition"
+          >
+            Open on {platform} →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ================= MOBILE CARD ================= */
+function MobileCard({ platform, handle, link, icon, accent }) {
+  return (
+    <div className="rounded-[2.4rem] border border-gray-700 bg-black shadow-xl p-4">
+      <div className="rounded-[1.9rem] border border-gray-800 bg-black overflow-hidden">
+
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-800">
+          <div
+            className={`p-2 rounded-full bg-gradient-to-r ${accent} text-black`}
+          >
+            {icon}
+          </div>
+          <div>
+            <div className="font-bold">{platform}</div>
+            <div className="text-xs text-gray-400">{handle}</div>
           </div>
         </div>
 
-        <div className="terminal panel">
-          <ComingSoon />
+        <div className="px-6 py-10 text-center text-gray-400 text-sm">
+          View the live {platform} page directly.
         </div>
+
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block text-center py-4 border-t border-gray-800 hover:bg-gray-900 transition"
+        >
+          Open on {platform} →
+        </a>
       </div>
     </div>
   );
