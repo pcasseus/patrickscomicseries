@@ -1,67 +1,196 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Lore() {
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-16 font-mono relative overflow-hidden">
-      {/* Holo Gridlines */}
-      <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,#ffffff0b_0px,#ffffff0b_1px,transparent_3px)] pointer-events-none z-0" />
-      <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,#ffffff0b_0px,#ffffff0b_1px,transparent_3px)] pointer-events-none z-0" />
+    <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden">
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      {/* Archive Paper Texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ffffff06_1px,transparent_1px)] bg-[length:4px_4px] pointer-events-none z-0" />
+
+      {/* ================= DESKTOP LAYOUT ================= */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 hidden md:block">
+
         {/* Header */}
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-yellow-400 mb-2 uppercase tracking-widest text-center animate-glow-header">
+        <div className="text-center mb-20">
+          <h1 className="text-5xl font-extrabold text-yellow-400 uppercase tracking-widest">
+            Lore Index
+          </h1>
+          <p className="mt-4 text-gray-400 italic max-w-2xl mx-auto">
+            A living glossary documenting the races, locations, technologies, and
+            historical truths of the <span className="text-blue-300">KenshinVerse</span>.
+          </p>
+        </div>
+
+        {/* Core Volumes */}
+        <section className="mb-24">
+          <h2 className="text-sm text-yellow-300 tracking-widest uppercase border-b border-yellow-700 pb-2 mb-8">
+            Core Volumes
+          </h2>
+
+          <div className="grid grid-cols-2 gap-12">
+
+            {/* ===== RACES — PAGE TURN ===== */}
+            <Link
+              to="/lore/races"
+              className="group relative bg-gradient-to-br from-yellow-900/90 to-yellow-950 border border-yellow-600 rounded-xl p-10 shadow-xl overflow-hidden transition-all duration-500"
+            >
+              {/* Page Curl */}
+              <div className="absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-black/40 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+              <div className="absolute top-0 right-0 h-full w-full origin-right scale-x-0 group-hover:scale-x-100 bg-black/20 transition-transform duration-500" />
+
+              <h3 className="text-2xl font-bold text-yellow-300 mb-4 tracking-wide">
+                🧬 Races
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                Definitive records of evolved species, Deviant classifications,
+                off-world entities, and hybrid lifeforms that shape the universe.
+              </p>
+
+              <span className="absolute bottom-6 right-8 text-[11px] text-yellow-500 opacity-70">
+                Volume I
+              </span>
+            </Link>
+
+            {/* ===== POI — LOCKED ===== */}
+            <div className="relative bg-black/70 border border-yellow-800 rounded-xl p-10 shadow-inner">
+              <span className="absolute top-4 right-5 text-xs text-red-400 tracking-widest">
+                LOCKED
+              </span>
+
+              <h3 className="text-2xl font-bold text-yellow-300 mb-4 tracking-wide">
+                📍 Points of Interest
+              </h3>
+              <p className="text-gray-400 leading-relaxed">
+                This volume is undergoing a complete reconstruction due to scale,
+                continuity, and structural issues within the location system.
+              </p>
+
+              <p className="mt-4 text-yellow-600 text-xs italic">
+                Revamp underway. Re-entry pending stabilization.
+              </p>
+
+              <span className="absolute bottom-6 right-8 text-[11px] text-yellow-700 opacity-50">
+                Volume II
+              </span>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Archive Shelf */}
+        <section className="mb-24">
+          <h2 className="text-sm text-yellow-300 tracking-widest uppercase border-b border-yellow-700 pb-2 mb-8">
+            Archive Shelf — Incoming Volumes
+          </h2>
+
+          <div className="grid grid-cols-2 gap-8">
+
+            <ArchiveCard
+              title="Historical Archives"
+              description="Timeline records, classified incidents, and universe-shaping events. Awaiting finalized chronology."
+              status="Planned"
+            />
+
+            <ArchiveCard
+              title="Tech & Artifacts"
+              description="Alien relics, experimental technology, Deviant enhancements, and legendary constructs."
+              status="Planned"
+            />
+
+            <div className="col-span-2">
+              <ArchiveCard
+                title="Additional Lore Systems"
+                description="Expanded glossaries, faction dossiers, cross-book indexing tools, and future codex modules."
+                status="In Ideation"
+              />
+            </div>
+
+          </div>
+        </section>
+
+        <footer className="text-xs text-green-400 text-center tracking-widest border-t border-yellow-700 pt-6">
+          STATUS: ACCESS GRANTED — LORE ARCHIVE ONLINE
+        </footer>
+      </div>
+
+      {/* ================= MOBILE LAYOUT ================= */}
+      <div className="relative z-10 px-5 py-16 md:hidden">
+
+        <h1 className="text-3xl font-extrabold text-yellow-400 uppercase tracking-widest text-center">
           Lore Index
         </h1>
-        <p className="text-center text-gray-400 italic mb-12 tracking-wide">
-          Explore the deeper world of the <span className="text-blue-300">KenshinVerse</span>.
+
+        <p className="mt-3 text-gray-400 italic text-center text-sm">
+          The universe glossary of the KenshinVerse
         </p>
 
-        {/* Grid Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Active Links */}
+        <div className="mt-12 space-y-6">
+
+          {/* Mobile Races */}
           <Link
             to="/lore/races"
-            className="group bg-yellow-900/90 hover:bg-yellow-800/90 border border-yellow-500 p-6 rounded-xl shadow-lg relative transition-all duration-300 card-hover-glow"
+            className="block border border-yellow-600 rounded-lg p-5 bg-yellow-900/80"
           >
-            <h2 className="text-xl font-bold text-yellow-300 mb-2 group-hover:underline underline-offset-4">
+            <h3 className="text-lg font-bold text-yellow-300">
               🧬 Races
-            </h2>
-            <p className="text-gray-300">
-              Learn about the different evolved species and superhuman classes.
+            </h3>
+            <p className="text-gray-300 text-sm mt-2">
+              Species, Deviants, hybrids, and off-world entities.
             </p>
           </Link>
 
-          {/* Unlocked POI Card */}
-          <Link
-            to="/lore/pois"
-            className="group bg-yellow-900/90 hover:bg-yellow-800/90 border border-yellow-500 p-6 rounded-xl shadow-lg relative transition-all duration-300 card-hover-glow"
-          >
-            <h2 className="text-xl font-bold text-yellow-300 mb-2 group-hover:underline underline-offset-4">
+          {/* Mobile POI Locked */}
+          <div className="border border-yellow-800 rounded-lg p-5 bg-black/60">
+            <div className="text-xs text-red-400 mb-1 tracking-widest">
+              LOCKED
+            </div>
+            <h3 className="text-lg font-bold text-yellow-300">
               📍 Points of Interest
-            </h2>
-            <p className="text-gray-300">
-              Discover key locations, bases, and landmarks across the KenshinVerse.
+            </h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Currently being rebuilt due to major structural issues.
             </p>
-          </Link>
-
-          {/* Future Teases */}
-          <div className="opacity-30 border border-dashed border-yellow-500 p-6 rounded-xl bg-yellow-900/50 text-yellow-300 pointer-events-none select-none">
-            <h2 className="text-xl font-bold mb-2">🔒 Historical Archives</h2>
-            <p className="text-gray-300">Timeline logs and recorded key events — Coming Soon</p>
           </div>
 
-          <div className="opacity-30 border border-dashed border-yellow-500 p-6 rounded-xl bg-yellow-900/50 text-yellow-300 pointer-events-none select-none">
-            <h2 className="text-xl font-bold mb-2">🔒 Tech & Artifacts</h2>
-            <p className="text-gray-300">Legendary items, enhancements, and alien relics — Coming Soon</p>
+          {/* Mobile Coming Soon */}
+          <div className="border border-dashed border-yellow-700 rounded-lg p-5 opacity-60">
+            <h4 className="text-yellow-300 font-semibold text-sm">
+              Historical Archives
+            </h4>
+            <p className="text-gray-400 text-xs mt-1">Coming Soon</p>
           </div>
+
+          <div className="border border-dashed border-yellow-700 rounded-lg p-5 opacity-60">
+            <h4 className="text-yellow-300 font-semibold text-sm">
+              Tech & Artifacts
+            </h4>
+            <p className="text-gray-400 text-xs mt-1">Coming Soon</p>
+          </div>
+
         </div>
 
-        {/* Console Status Footer */}
-        <div className="mt-16 text-xs text-green-400 text-center tracking-widest border-t border-yellow-700 pt-4">
-          STATUS: ACCESS GRANTED — LORE CONSOLE ACTIVE
-        </div>
+        <footer className="mt-16 text-[10px] text-green-400 text-center tracking-widest border-t border-yellow-700 pt-4">
+          LORE ARCHIVE ACTIVE
+        </footer>
       </div>
+    </div>
+  );
+}
+
+/* ===== Helper ===== */
+function ArchiveCard({ title, description, status }) {
+  return (
+    <div className="border border-dashed border-yellow-700 rounded-lg p-6 bg-yellow-950/40 opacity-70">
+      <h4 className="text-lg font-semibold text-yellow-300 mb-2">
+        🔒 {title}
+      </h4>
+      <p className="text-gray-400 text-sm leading-relaxed">
+        {description}
+      </p>
+      <p className="mt-2 text-xs text-yellow-600 italic">
+        Status: {status}
+      </p>
     </div>
   );
 }

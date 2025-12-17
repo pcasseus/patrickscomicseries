@@ -1,23 +1,35 @@
 import React, { useState } from "react";
 import CharacterCard from "../components/characterGallery/CharacterCard";
 import CharacterFilters from "../components/characterGallery/CharacterFilters";
+import KenshinBanner from "../components/characterGallery/KenshinBanner";
 import { useNavigate } from "react-router-dom";
 import { allCharacters } from "./data/characterList.js";
+import { Lock } from "lucide-react";
 
 function CharacterGallery() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [divisionFilter, setDivisionFilter] = useState("All");
-  const [showSpoilers, setShowSpoilers] = useState(false);
+  const [selectedBooks, setSelectedBooks] = useState(["Book 1"]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [lockedChar, setLockedChar] = useState(null);
   const navigate = useNavigate();
 
   const normalizedSearch = searchTerm.toLowerCase().trim();
 
+  // Toggle which books are active (multi-select)
+  const toggleBook = (book) => {
+    setSelectedBooks((prev) =>
+      prev.includes(book) ? prev.filter((b) => b !== book) : [...prev, book]
+    );
+  };
+
+  // Filtering logic
   const filtered = allCharacters.filter((char) => {
     const nameMatch = char.name.toLowerCase().includes(normalizedSearch);
     const roleMatch = roleFilter === "All" || char.role === roleFilter;
     const divisionMatch = divisionFilter === "All" || char.division === divisionFilter;
-    const bookMatch = showSpoilers || char.book === "Book 1";
+    const bookMatch = selectedBooks.includes(char.book);
     return nameMatch && roleMatch && divisionMatch && bookMatch;
   });
 
@@ -27,50 +39,44 @@ function CharacterGallery() {
         .slice(0, 3)
     : [];
 
-  const handleCardClick = (slug) => {
-    window.__kenshin_entrySource = "fromGallery";
-    navigate(`/characters/${slug}`, { state: { fromGallery: true } });
+  // Card click handling (locked vs unlocked)
+  const handleCardClick = (char) => {
+    if (char.comingSoon) {
+      setLockedChar(char.name);
+      setIsModalOpen(true);
+    } else {
+      window.__kenshin_entrySource = "fromGallery";
+      navigate(`/characters/${char.slug}`, { state: { fromGallery: true } });
+    }
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white font-mono px-4 sm:px-6 py-12">
-      {/* Background Layer */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 opacity-90" />
+    <div className="relative min-h-screen bg-black text-white font-mono px-4 sm:px-6 py-12 overflow-hidden">
+      {/* --- Cinematic Banner --- */}
+      <KenshinBanner />
+
+      {/* --- Book Filters --- */}
+      <div className="relative z-10 flex justify-center gap-4 mb-10 flex-wrap">
+        {["Book 1", "Book 2", "Book 3"].map((book) => {
+          const isActive = selectedBooks.includes(book);
+          return (
+            <button
+              key={book}
+              onClick={() => toggleBook(book)}
+              className={`px-5 py-2 rounded font-bold text-sm sm:text-base tracking-wide transition-all border
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-green-400 to-emerald-600 text-black border-green-400 shadow-[0_0_12px_rgba(0,255,0,0.5)]"
+                    : "bg-gradient-to-r from-red-700 to-red-900 text-white border-red-700 hover:opacity-90"
+                }`}
+            >
+              {book}
+            </button>
+          );
+        })}
       </div>
 
-      {/* HUD */}
-      <div className="absolute top-4 left-4 z-20 text-green-400 text-[10px] sm:text-xs tracking-widest">
-        SYSTEM ONLINE ▮▯▯▯▯
-      </div>
-      <div className="absolute bottom-4 right-4 z-20 text-green-400 text-[10px] sm:text-xs tracking-widest">
-        CONNECTION SECURE ▮▮▮▮▯
-      </div>
-
-      {/* Header */}
-      <div className="relative z-10 text-center mb-8 px-2">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl text-yellow-400 font-extrabold uppercase tracking-widest mb-4 leading-snug">
-          Operative Files: All Characters
-        </h1>
-        <p className="text-yellow-300 italic max-w-3xl mx-auto text-xs sm:text-sm border border-yellow-600 p-3 sm:p-4 rounded shadow">
-          Use filters or search to locate operatives. Dossiers reflect current registry.
-        </p>
-      </div>
-
-      {/* Spoiler Warning Toggle */}
-      <div className="relative z-10 mb-6 text-center px-2">
-        <p className="text-[11px] sm:text-xs text-yellow-300 italic mb-2 leading-snug">
-          Warning: Some operatives appear in later books. Toggle below to reveal future appearances.
-        </p>
-        <button
-          onClick={() => setShowSpoilers((prev) => !prev)}
-          className="px-3 sm:px-4 py-2 rounded bg-yellow-700 hover:bg-yellow-600 text-white text-[11px] sm:text-sm font-bold transition"
-        >
-          {showSpoilers ? "Hide Spoilers (Only Show Book 1)" : "Show All Characters (Spoilers!)"}
-        </button>
-      </div>
-
-      {/* Filters */}
+      {/* --- Filters --- */}
       <CharacterFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -81,31 +87,58 @@ function CharacterGallery() {
         suggested={suggested}
       />
 
-      {/* Grid */}
-      <div className="relative z-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-6">
+      {/* --- Character Grid --- */}
+      <div className="relative z-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8">
         {filtered.map((char) => (
           <div
             key={char.slug}
-            onClick={() => {
-              if (!char.comingSoon) handleCardClick(char.slug);
-            }}
-            className={`relative ${
-              char.comingSoon
-                ? "cursor-not-allowed opacity-60 pointer-events-none"
-                : "cursor-pointer"
+            onClick={() => !char.comingSoon && handleCardClick(char)}
+            className={`relative transition-transform hover:scale-[1.02] ${
+              char.comingSoon ? "cursor-not-allowed" : "cursor-pointer"
             }`}
           >
-            <CharacterCard character={char} />
+            <CharacterCard character={char} isLocked={char.comingSoon} />
 
-            {/* Overlay for Coming Soon */}
+            {/* Locked Overlay */}
             {char.comingSoon && (
-              <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded text-yellow-300 font-bold text-lg">
-                Coming Soon
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-lg z-20">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLockedChar(char.name);
+                    setIsModalOpen(true);
+                  }}
+                  className="flex flex-col items-center justify-center gap-1 text-yellow-400 font-bold px-3 py-2 bg-zinc-800/80 rounded border border-yellow-500 hover:bg-yellow-500 hover:text-black transition"
+                >
+                  <Lock className="w-5 h-5" />
+                  Locked
+                </button>
               </div>
             )}
           </div>
         ))}
       </div>
+
+      {/* --- Locked Character Modal --- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-zinc-900 border border-yellow-500 rounded-lg p-6 max-w-md mx-4 text-center shadow-lg">
+            <h2 className="text-yellow-400 font-bold text-lg mb-3">Character Locked</h2>
+            <p className="text-yellow-200 text-sm mb-6 leading-relaxed">
+              The character{" "}
+              <span className="text-yellow-400">{lockedChar}</span> is currently locked
+              due to a revamp of their page in progress. It will be announced when their
+              profile becomes available.
+            </p>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
