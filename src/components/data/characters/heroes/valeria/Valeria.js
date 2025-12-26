@@ -12,11 +12,21 @@ const abilities = [...abilities1];
 
 const valeria = {
   id: "#007",
+  slug: "valeria",
   name: "Valeria Adair-Taylor",
   image: "/valeria.jpg",
   class: "Human Class",
-  status: "Active",
   primaryPower: "Genius-Level Intellect",
+
+  aliases: [],
+
+  birthDate: "July 3, 1999",
+
+  fancast: {
+    actor: "Naomi Scott",
+    note: "This is a non-commercial fancast reference only. The listed actor is not affiliated with or involved in this project.",
+  },
+
   stats,
   bio,
   abilities,

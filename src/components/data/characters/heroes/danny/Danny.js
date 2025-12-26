@@ -10,15 +10,27 @@ import abilities1 from "./abilities1.js";
 import abilities2 from "./abilities2.js";
 import abilities3 from "./abilities3.js";
 
+import psychProfile from "./psychProfile.js";
+
 const abilities = [...abilities1, ...abilities2, ...abilities3];
 
 const danny = {
   id: "#005",
+  slug: "danny",
   name: "Danny Foster",
   image: "/danny.jpg",
   class: "Beta Class Deviant",
-  status: "Active",
   primaryPower: "Cognitive Hyperacceleration",
+
+  aliases: [],
+
+  birthDate: "January 24, 2002",
+
+  fancast: {
+    actor: "Michael Provost",
+    note: "This is a non-commercial fancast reference only. The listed actor is not affiliated with or involved in this project.",
+  },
+
   stats,
   bio,
   abilities,
@@ -27,6 +39,7 @@ const danny = {
   uniforms,
   tools,
   feats,
+  psychProfile,
 };
 
 export default danny;

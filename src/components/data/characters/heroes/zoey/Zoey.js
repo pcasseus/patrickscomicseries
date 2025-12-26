@@ -14,11 +14,21 @@ const abilities = [...abilities1, ...abilities2, ...abilities3];
 
 const zoey = {
   id: "#006",
+  slug: "zoey",
   name: "Zoey Pierce-Harris",
   image: "/zoey.jpg",
   class: "Beta Class Deviant - Alpha Class Deviant",
-  status: "Active",
   primaryPower: "Unlimited Energy Generation",
+
+  aliases: [],
+
+  birthDate: "May 3, 2003",
+
+  fancast: {
+    actor: "Savannah Lee Smith",
+    note: "This is a non-commercial fancast reference only. The listed actor is not affiliated with or involved in this project.",
+  },
+
   stats,
   bio,
   abilities,

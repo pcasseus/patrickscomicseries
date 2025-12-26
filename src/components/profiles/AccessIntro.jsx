@@ -1,25 +1,31 @@
-import React from "react";
-import AccessIntroDisplay from "./AccessIntroDisplay";
-import { useAccessIntro } from "./intro/useAccessIntro";
+import React, { useEffect, useState } from "react";
+import AICoreCircle from "../ui/AICoreCircle";
+import "./AccessIntro.css";
 
-export default function AccessIntro({ name, shouldPlay = false, onComplete, forceExit = false }) {
-  const {
-    shouldRender,
-    exiting,
-    currentLine,
-    exitEarly,
-    overrideText,
-  } = useAccessIntro(name, onComplete, forceExit);
+export default function AccessIntro({ shouldPlay = false, onComplete }) {
+  const [visible, setVisible] = useState(false);
 
-  if (!shouldPlay || !shouldRender) return null;
+  useEffect(() => {
+    if (!shouldPlay) return;
+
+    setVisible(true);
+
+    const timer = setTimeout(() => {
+      setVisible(false);
+      onComplete?.();
+    }, 900); 
+
+    return () => clearTimeout(timer);
+  }, [shouldPlay, onComplete]);
+
+  if (!shouldPlay || !visible) return null;
 
   return (
-    <AccessIntroDisplay
-      name={name}
-      exiting={exiting}
-      currentLine={currentLine}
-      overrideText={overrideText}
-      onSkip={exitEarly}
-    />
+    <div className="access-unlock-container">
+      <AICoreCircle size={120} />
+      <div className="unlock-text">
+        &gt; ACCESSING SUBJECT FILE...
+      </div>
+    </div>
   );
 }

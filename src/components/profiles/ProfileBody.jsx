@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import ProfileHeader from './ProfileHeader';
-import AbilitiesSection from './AbilitiesSection';
-import WeaknessesSection from './WeaknessesSection';
-import RelationshipsSection from './RelationshipsSection';
-import UniformsSection from './UniformsSection';
-import Footer from './Footer';
-import Modal from './Modal';
-import FeatsSection from './FeatsSection';
+import React, { useState } from "react";
+import ProfileHeader from "./ProfileHeader";
+import PsychEvaluationSection from "./PsychEvaluationSection";
+import ThreatLevelSection from "./ThreatLevelSection";
+import AbilitiesSection from "./AbilitiesSection";
+import WeaknessesSection from "./WeaknessesSection";
+import RelationshipsSection from "./RelationshipsSection";
+import UniformsSection from "./UniformsSection";
+import FeatsSection from "./FeatsSection";
+import Footer from "./Footer";
+import Modal from "./Modal";
 
 const ProfileBody = ({
   character,
-  toggleTheme,
-  themeActive,
   subVisible,
   toggleSub,
   selectedAbility,
   setSelectedAbility,
-  selectedRelation,
   setSelectedRelation,
-  selectedItem,
   setSelectedItem,
-  replayIntro
+  selectedTrait,
+  setSelectedTrait,
+  replayIntro,
 }) => {
   const [selectedBooks, setSelectedBooks] = useState([1]);
 
@@ -34,35 +34,25 @@ const ProfileBody = ({
 
   return (
     <>
-      <div className="text-green-400 tracking-widest text-sm mb-2 border-b border-green-700 pb-2">
-        OPERATIVE ID: {character.id || "#000"} — CLASS: {character.class || ""}
+      {/* OPERATIVE HEADER */}
+      <div className="text-green-400 tracking-widest text-sm mb-4 border-b border-green-700 pb-2">
+        OPERATIVE ID: {character.id || "#000"} — CLASS:{" "}
+        {character.class || "Unclassified"}
       </div>
 
-      <div className="mb-6 flex justify-start">
-        <button
-          onClick={replayIntro}
-          className="text-xs font-mono tracking-wider text-yellow-300 border border-yellow-500 px-4 py-1.5 rounded transition-all duration-300 hover:bg-yellow-300 hover:text-black shadow-md hover:shadow-yellow-500/50"
-        >
-          REPLAY ACCESS TERMINAL INTRO
-        </button>
-      </div>
+      {/* BIO / HEADER */}
+      <ProfileHeader character={character} />
 
-      <ProfileHeader
-        character={character}
-        toggleTheme={toggleTheme}
-        themeActive={themeActive}
-        bio={character.bio}
-      />
-
-      <div className="flex gap-4 mb-6">
+      {/* BOOK FILTERS */}
+      <div className="flex gap-4 my-10">
         {[1, 2, 3].map((book) => (
           <button
             key={book}
             onClick={() => toggleBook(book)}
-            className={`px-4 py-1 border rounded text-sm font-bold tracking-wider ${
+            className={`px-4 py-1 border rounded text-sm font-bold tracking-wider transition ${
               selectedBooks.includes(book)
-                ? 'bg-green-600 text-white border-green-400'
-                : 'bg-red-700 text-white border-red-500'
+                ? "bg-green-600 text-white border-green-400"
+                : "bg-red-700 text-white border-red-500"
             }`}
           >
             Book {book}
@@ -70,7 +60,23 @@ const ProfileBody = ({
         ))}
       </div>
 
+      {/* THREAT LEVEL */}
+      <ThreatLevelSection
+        character={character}
+        selectedBooks={selectedBooks}
+      />
+
+      {/* POWERS & ABILITIES */}
       <AbilitiesSection
+        character={character}
+        subVisible={subVisible}
+        toggleSub={toggleSub}
+        setSelectedAbility={setSelectedAbility}
+        selectedBooks={selectedBooks}
+      />
+
+      {/* WEAKNESSES */}
+      <WeaknessesSection
         character={character}
         setSelectedAbility={setSelectedAbility}
         subVisible={subVisible}
@@ -78,86 +84,67 @@ const ProfileBody = ({
         selectedBooks={selectedBooks}
       />
 
-      <WeaknessesSection
-        character={character}
-        selectedBooks={selectedBooks}
-        setSelectedAbility={setSelectedAbility}
-        onToggleBook={toggleBook}
-      />
-
+      {/* FEATS */}
       <FeatsSection character={character} />
 
-      {/* 🔀 SPLIT: Family (left) | Uniforms HUD (right) */}
-      <div className="flex flex-col lg:flex-row gap-6 mb-12">
-        {/* Family Section */}
-        <div className="lg:w-1/2">
+      {/* RELATIONSHIPS + UNIFORMS — FIXED ALIGNMENT */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-16 mb-24">
+        <div className="h-full">
           <RelationshipsSection
             character={character}
             setSelectedRelation={setSelectedRelation}
           />
         </div>
 
-        {/* Uniforms + integrated tools */}
-        <div className="lg:w-1/2">
+        <div className="h-full">
           <UniformsSection
             character={character}
             setSelectedItem={setSelectedItem}
           />
         </div>
-      </div>
+      </section>
 
+      {/* FOOTER */}
       <Footer characterName={character.name} />
 
-      {/* Ability Modal */}
+      {/* ABILITY MODAL */}
       {selectedAbility && (
         <Modal
           title={selectedAbility.name}
-          onClose={() => setSelectedAbility(null)}
-          tabbed={true}
-          baseContent={
-            <>
-              <p className="mb-2">{selectedAbility.description}</p>
-              {selectedAbility.book && (
-                <p className="text-sm text-yellow-300">
-                  First Appearance: <strong>{selectedAbility.book}</strong>
-                </p>
-              )}
-            </>
-          }
+          tabbed={!!selectedAbility.evolved}
+          baseContent={selectedAbility.description}
           evolvedContent={selectedAbility.evolved}
           selectedBooks={selectedBooks}
-        />
-      )}
-
-      {/* Relationship Modal */}
-      {selectedRelation && (
-        <Modal title={selectedRelation.name} onClose={() => setSelectedRelation(null)}>
-          <div className="flex flex-col items-center text-center">
-            <img
-              src={selectedRelation.image}
-              alt={selectedRelation.name}
-              className="w-32 h-32 object-cover rounded border border-yellow-500 mb-3"
-            />
-            <p className="text-sm mb-2 text-yellow-300">
-              Role: <span className="text-white">{selectedRelation.role}</span>
+          onClose={() => setSelectedAbility(null)}
+        >
+          {!selectedAbility.evolved && (
+            <p className="text-sm text-gray-300">
+              {selectedAbility.description}
             </p>
-            {selectedRelation.description && (
-              <p className="text-sm mt-2 text-gray-300 italic">{selectedRelation.description}</p>
-            )}
-            <a
-              href={`/characters/${selectedRelation.slug}`}
-              className="mt-4 px-4 py-2 border border-yellow-300 text-yellow-300 rounded hover:bg-yellow-300 hover:text-black transition-all text-sm"
-            >
-              View Full Profile
-            </a>
-          </div>
+          )}
         </Modal>
       )}
 
-      {/* Tools/Uniforms Modal */}
-      {selectedItem && (
-        <Modal title={selectedItem.name} onClose={() => setSelectedItem(null)}>
-          <p>{selectedItem.description}</p>
+      {/* TRAITS MODAL */}
+      {selectedTrait && (
+        <Modal
+          title={selectedTrait.title}
+          onClose={() => setSelectedTrait(null)}
+        >
+          <p className="text-yellow-300 mb-4">
+            {selectedTrait.subtitle}
+          </p>
+
+          {selectedTrait.entries.map((trait, idx) => (
+            <div key={idx} className="mb-4">
+              <h4 className="text-lime-300 font-bold uppercase tracking-wider mb-1">
+                {trait.name}
+              </h4>
+              <p className="text-sm text-gray-300">
+                {trait.description}
+              </p>
+            </div>
+          ))}
         </Modal>
       )}
     </>

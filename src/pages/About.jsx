@@ -13,7 +13,7 @@ const About = () => {
           Coder by day. Creator by nature.
         </p>
         <p className="text-xs text-yellow-300 opacity-30 mt-2 tracking-widest">
-          FILE VERSION: PCJR.2025 | LAST UPDATED: MAY 2025
+          FILE VERSION: PCJR.2025 | LAST UPDATED: DEC 2025
         </p>
       </div>
 
@@ -21,7 +21,7 @@ const About = () => {
       {/* 📖 About Paragraphs */}
       <div className="max-w-4xl mx-auto text-center space-y-6 animate-slide-up">
         <p className="text-lg leading-relaxed text-gray-300">
-          I'm a Senior at Pace University studying Computer Science, but writing has always been my escape — a way to turn pressure into creativity. This site is home to my original series: a world I started building in 2022, originally inspired by Marvel, DC, and anime, but now fully transformed into something of my own.
+          I'm a Grad Student at Pace University studying Computer Science, but writing has always been my escape — a way to turn pressure into creativity. This site is home to my original series: a world I started building in 2022, originally inspired by Marvel, DC, and anime, but now fully transformed into something of my own.
         </p>
         <p className="text-gray-400">
           From powerful characters and explosive battles to slow-burn arcs about identity, morality, and trauma — this series is personal. Every story I write pulls from something real. Something human.
@@ -70,7 +70,7 @@ const About = () => {
             <FaInstagram /> Instagram
           </a>
           <a
-            href="https://x.com/KenshinZenkai"
+            href="https://x.com/"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 hover:text-blue-400 transition-all"

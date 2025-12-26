@@ -46,7 +46,7 @@ const abilities = [
     books: [1],
     description:
       "Trained from a young age by his uncle Teddy Johnson—Wesley developed an elite-level proficiency in cyber-infiltration. Under Teddy’s hands-on tutelage, he learned to breach firewalls, override encrypted systems, disrupt live surveillance networks, and manipulate AI protocols with precision.\n\nBut the student didn’t just learn—he surpassed the master by a mile. In time, Wesley became one of the most dangerous and untraceable hackers on the planet, capable of outmaneuvering government systems, disabling alien tech, and bringing military infrastructure to its knees in seconds. His blend of instinctual logic, speed, and tactical brilliance makes him nearly impossible to oppose in the digital realm.",
-    evolved: { books: null, description: "" },
+    
     subAbilities: []
   },
   {
@@ -54,7 +54,7 @@ const abilities = [
     books: [1],
     description:
       "Trained extensively by his father Ajax Johnson—a renowned soldier and combat tactician—Wesley is a master of multiple martial arts disciplines. His fighting style is an evolving synthesis of Krav Maga, Brazilian Jiu-Jitsu, boxing, kickboxing, and jujutsu, each integrated seamlessly into his approach based on the threat and terrain. From grapples and throws to strikes and pressure-point counters, he’s equipped for nearly any scenario. What sets Wesley apart is how he fuses technique with his vibrational abilities, using timing, flow, and environmental control to amplify even the most basic move.",
-    evolved: { books: null, description: "" },
+    
     subAbilities: []
   },
   {
@@ -62,7 +62,7 @@ const abilities = [
     books: [1],
     description:
       "Wesley is highly trained in the art of espionage, surveillance, and infiltration—skills passed down by both Ajax and Teddy Johnson. He is adept at executing black ops missions, blending into hostile environments, extracting intelligence, and navigating enemy facilities undetected. His talents cover a range of field techniques: lockpicking, silent takedowns, remote surveillance setup, disguise, psychological profiling, and asset handling.",
-    evolved: { books: null, description: "" },
+    
     subAbilities: []
   },
   {
@@ -70,7 +70,7 @@ const abilities = [
     books: [1],
     description:
       "Wesley is a naturally gifted strategist—analytically sharp, quick to adapt, and capable of reading the battlefield with surgical clarity. Mentored by both Ajax and Teddy Johnson, he learned to approach combat and mission planning like a chessboard: seeing angles others miss, accounting for probabilities in real time, and making split-second decisions under pressure.\n\nHis mind operates like a predictive engine—analyzing patterns, anticipating enemy moves, and adjusting tactics mid-conflict. Whether in solo operations or team leadership roles, Wesley’s plans are precise, layered, and often two steps ahead of everyone else. His anxiety, once a burden, now sharpens his awareness—fueling a hyper-intuitive combat sense that borders on precognition.\n\nWhen things fall apart, Wesley doesn’t panic. He recalculates—and wins.",
-    evolved: { books: null, description: "" },
+    
     subAbilities: []
   }
 ];

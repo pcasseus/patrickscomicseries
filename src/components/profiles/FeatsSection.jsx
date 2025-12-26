@@ -1,195 +1,288 @@
-import React, { useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
-const TABS = [
-  { label: "Book 1", key: "1" },
-  { label: "Book 2", key: "2" },
-  { label: "Book 3", key: "3" },
-  { label: "All Books", key: "all" },
-];
-
-const ITEMS_PER_PAGE = 10;
-
-const colorMap = {
-  1: "bg-yellow-400 shadow-yellow-500",
-  2: "bg-red-400 shadow-red-500",
-  3: "bg-blue-400 shadow-blue-500",
-};
+const FEATS_PER_PAGE = 8;
 
 const FeatsSection = ({ character }) => {
-  const feats = character.feats || {};
-  const [activeTab, setActiveTab] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const featsByBook = character?.feats || {};
 
-  const handleTabClick = (key) => {
-    setActiveTab(key);
-    setCurrentPage(1);
+  // null = nothing selected
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [pageIndex, setPageIndex] = useState(0);
+
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipDir, setFlipDir] = useState("next");
+  const flipTimer = useRef(null);
+
+  const toggleBook = (key) => {
+    setPageIndex(0);
+    setSelectedBook((prev) => (prev === key ? null : key));
   };
 
-  const paginate = (list) => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return list.slice(start, start + ITEMS_PER_PAGE);
-  };
+  const hasAnySelected = selectedBook !== null;
 
-  const renderFeatsList = (list, bookKey = "1") =>
-    list.length === 0 ? (
-      <p className="text-yellow-400 text-sm font-mono uppercase text-center border border-yellow-700 p-4 rounded bg-black shadow-inner shadow-yellow-900">
-        No feats recorded.
-      </p>
-    ) : (
-      <>
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {paginate(list).map((feat, index) => (
-            <li
-              key={index}
-              className="flex items-start gap-2 border border-yellow-500 bg-black text-yellow-300 rounded font-mono text-sm px-4 py-3 hover:bg-yellow-500 hover:text-black transition-all duration-200 shadow-md"
-            >
-              <span
-                className={`h-2 w-2 mt-1 rounded-full animate-pulse ${
-                  colorMap[bookKey] || "bg-yellow-400 shadow-yellow-500"
-                }`}
-              />
-              {feat}
-            </li>
-          ))}
-        </ul>
+  const activeFeats = useMemo(() => {
+    if (!hasAnySelected) return [];
 
-        {list.length > ITEMS_PER_PAGE && (
-          <div className="flex justify-center gap-2">
-            {Array.from({ length: Math.ceil(list.length / ITEMS_PER_PAGE) }).map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentPage(idx + 1)}
-                className={`px-3 py-1 rounded font-mono text-xs border ${
-                  currentPage === idx + 1
-                    ? "bg-yellow-500 text-black border-yellow-600"
-                    : "bg-black text-yellow-300 border-yellow-500 hover:bg-yellow-500 hover:text-black"
-                }`}
-              >
-                {idx + 1}
-              </button>
-            ))}
-          </div>
-        )}
-      </>
-    );
-
-  const renderAllBooks = () => {
-    const combinedFeats = [];
-
-    Object.entries(feats).forEach(([bookKey, list]) => {
-      list.forEach((feat) => {
-        combinedFeats.push({ feat, bookKey });
-      });
-    });
-
-    if (combinedFeats.length === 0) {
-      return (
-        <p className="text-yellow-400 text-sm font-mono uppercase text-center border border-yellow-700 p-4 rounded bg-black shadow-inner shadow-yellow-900">
-          No feats recorded across any books.
-        </p>
-      );
+    if (selectedBook === "all") {
+      return Object.values(featsByBook).flat().filter(Boolean);
     }
 
-    const paginated = paginate(combinedFeats);
+    return Array.isArray(featsByBook[selectedBook])
+      ? featsByBook[selectedBook]
+      : [];
+  }, [featsByBook, selectedBook, hasAnySelected]);
 
-    return (
-      <>
-        {/* Color Legend */}
-        <div className="flex justify-center items-center gap-6 mb-6 font-mono text-sm text-yellow-200">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-yellow-400 shadow-yellow-500" />
-            Book 1
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-red-400 shadow-red-500" />
-            Book 2
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-blue-400 shadow-blue-500" />
-            Book 3
-          </div>
-        </div>
+  const totalPages = Math.max(
+    1,
+    Math.ceil(activeFeats.length / FEATS_PER_PAGE)
+  );
+  const safePage = Math.min(pageIndex, totalPages - 1);
 
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {paginated.map(({ feat, bookKey }, index) => (
-            <li
-              key={index}
-              className="flex items-start gap-2 border border-yellow-500 bg-black text-yellow-300 rounded font-mono text-sm px-4 py-3 hover:bg-yellow-500 hover:text-black transition-all duration-200 shadow-md"
-            >
-              <span
-                className={`h-2 w-2 mt-1 rounded-full animate-pulse ${
-                  colorMap[bookKey] || "bg-yellow-400 shadow-yellow-500"
-                }`}
-              />
-              {feat}
-            </li>
-          ))}
-        </ul>
+  const pageSlice = activeFeats.slice(
+    safePage * FEATS_PER_PAGE,
+    safePage * FEATS_PER_PAGE + FEATS_PER_PAGE
+  );
 
-        <div className="flex justify-center gap-2">
-          {Array.from({ length: Math.ceil(combinedFeats.length / ITEMS_PER_PAGE) }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPage(idx + 1)}
-              className={`px-3 py-1 rounded font-mono text-xs border ${
-                currentPage === idx + 1
-                  ? "bg-yellow-500 text-black border-yellow-600"
-                  : "bg-black text-yellow-300 border-yellow-500 hover:bg-yellow-500 hover:text-black"
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
-        </div>
-      </>
-    );
+  const leftPage = pageSlice.slice(0, 4);
+  const rightPage = pageSlice.slice(4, 8);
+
+  const canPrev = hasAnySelected && safePage > 0 && !isFlipping;
+  const canNext =
+    hasAnySelected && safePage < totalPages - 1 && !isFlipping;
+
+  const runFlip = (dir) => {
+    if ((dir === "next" && !canNext) || (dir === "prev" && !canPrev)) return;
+
+    setFlipDir(dir);
+    setIsFlipping(true);
+
+    if (flipTimer.current) clearTimeout(flipTimer.current);
+    flipTimer.current = setTimeout(() => {
+      setPageIndex((p) =>
+        dir === "next" ? p + 1 : Math.max(p - 1, 0)
+      );
+      setIsFlipping(false);
+    }, 720);
   };
 
   return (
-    <div className="border border-yellow-500 bg-[#111] text-white rounded shadow-xl mb-8 flex flex-col md:flex-row overflow-hidden">
-      {/* Side Tabs */}
-      <div className="border-r border-yellow-500 w-full md:w-40 bg-black">
-        {TABS.map(({ label, key }) => (
+    <section className="border border-yellow-500 rounded overflow-hidden flex w-full mb-32 featsRoot">
+      <style>{`
+        /* ---------- EXISTING STYLES ---------- */
+
+        .featsWrap {
+          background: radial-gradient(circle at top, #080808, #020202 70%);
+        }
+
+        .sidebarGrid {
+          background-color: #000;
+          background-image:
+            linear-gradient(rgba(255,196,0,0.12) 1px, transparent 1px),
+            linear-gradient(to right, rgba(255,196,0,0.12) 1px, transparent 1px);
+          background-size: 28px 28px;
+        }
+
+        .page {
+          position: relative;
+          background: linear-gradient(#f7e7d6, #efddc8);
+          color: #141414;
+          border-radius: 6px;
+          padding: 36px 40px;
+          box-shadow:
+            inset 0 0 0 1px rgba(0,0,0,0.14),
+            0 12px 24px rgba(0,0,0,0.45);
+        }
+
+        .page::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: 6px;
+          background-image:
+            radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+          background-size: 4px 4px;
+          opacity: 0.35;
+          pointer-events: none;
+        }
+
+        .featBlock {
+          margin-bottom: 22px;
+          padding-bottom: 22px;
+          border-bottom: 1px solid rgba(0,0,0,0.18);
+        }
+
+        .featText {
+          font-family: "Georgia", "Times New Roman", serif;
+          font-size: 17px;
+          line-height: 1.75;
+          color: #141414;
+        }
+
+        .pageLabel {
+          position: absolute;
+          top: 14px;
+          right: 18px;
+          font-size: 10px;
+          letter-spacing: 0.3em;
+          color: rgba(0,0,0,0.35);
+          font-family: monospace;
+        }
+
+        .flipOverlay {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          width: calc(50% - 12px);
+          background: linear-gradient(#f3e2cf, #e7d2ba);
+          border-radius: 6px;
+          box-shadow:
+            inset 0 0 0 1px rgba(0,0,0,0.2),
+            0 0 30px rgba(0,0,0,0.6);
+          transform-origin: right center;
+          transform-style: preserve-3d;
+          animation: ${flipDir === "next" ? "flipNext" : "flipPrev"}
+            720ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes flipNext {
+          0% { transform: rotateY(0deg); }
+          100% { transform: rotateY(-155deg); }
+        }
+
+        @keyframes flipPrev {
+          0% { transform: rotateY(0deg); }
+          100% { transform: rotateY(155deg); }
+        }
+
+        /* ---------- MOBILE ADDITIONS ONLY ---------- */
+
+        @media (max-width: 900px) {
+          .featsRoot {
+            flex-direction: column;
+          }
+
+          .desktopOnly {
+            display: none;
+          }
+
+          .mobileOnly {
+            display: block;
+          }
+
+          .page {
+            padding: 24px;
+          }
+
+          .featText {
+            font-size: 15px;
+          }
+        }
+
+        .mobileOnly {
+          display: none;
+        }
+      `}</style>
+
+      {/* DESKTOP SIDEBAR (UNCHANGED) */}
+      <div className="w-48 border-r border-yellow-500 sidebarGrid desktopOnly">
+        {[
+          { key: "1", label: "Book 1" },
+          { key: "2", label: "Book 2" },
+          { key: "3", label: "Book 3" },
+          { key: "all", label: "All Books" },
+        ].map((b) => {
+          const active = selectedBook === b.key;
+          return (
+            <button
+              key={b.key}
+              onClick={() => toggleBook(b.key)}
+              className={`w-full px-5 py-5 font-mono uppercase tracking-widest border-b border-yellow-500
+                ${
+                  active
+                    ? "bg-yellow-500 text-black"
+                    : "text-yellow-300 hover:bg-yellow-500 hover:text-black"
+                }`}
+            >
+              {b.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* MOBILE BOOK TOGGLES */}
+      <div className="mobileOnly flex border-b border-yellow-500 sidebarGrid">
+        {["1", "2", "3", "all"].map((key) => (
           <button
             key={key}
-            onClick={() => handleTabClick(key)}
-            className={`w-full px-4 py-3 text-sm font-bold font-mono uppercase tracking-wide border-b border-yellow-500 hover:bg-yellow-500 hover:text-black transition ${
-              activeTab === key ? "bg-yellow-500 text-black" : "text-yellow-300"
-            }`}
+            onClick={() => toggleBook(key)}
+            className={`flex-1 py-3 font-mono text-xs uppercase tracking-widest
+              ${
+                selectedBook === key
+                  ? "bg-yellow-500 text-black"
+                  : "text-yellow-300"
+              }`}
           >
-            {label}
+            {key === "all" ? "All" : `Book ${key}`}
           </button>
         ))}
       </div>
 
-      {/* Main Display */}
-      <div
-        className="flex-1 p-6"
-        style={{
-          backgroundImage: `
-            linear-gradient(#00ffff11 1px, transparent 1px),
-            linear-gradient(to right, #00ffff11 1px, transparent 1px)
-          `,
-          backgroundSize: "30px 30px",
-        }}
-      >
-        <div className="mb-4">
-          <h2 className="text-yellow-400 font-bold font-mono text-lg uppercase tracking-wide">
-            Feats
-          </h2>
-        </div>
-
-        {activeTab === null ? (
-          <div className="border border-yellow-700 bg-black p-6 rounded text-center text-yellow-300 font-mono text-sm shadow-inner shadow-yellow-900">
-            Select a book tab to view this character’s feats.
+      {/* BODY */}
+      <div className="flex-1 featsWrap p-6">
+        {!hasAnySelected ? (
+          <div className="border border-yellow-500 rounded p-6 text-gray-300 font-mono">
+            Select a book to display this character&apos;s feats.
           </div>
-        ) : activeTab === "all" ? (
-          renderAllBooks()
         ) : (
-          renderFeatsList(feats[activeTab] || [], activeTab)
+          <>
+            {/* DESKTOP BOOK SPREAD (UNCHANGED) */}
+            <div className="relative flex gap-6 desktopOnly">
+              {[leftPage, rightPage].map((page, idx) => (
+                <div key={idx} className="w-1/2 page">
+                  <div className="pageLabel">ARCHIVE</div>
+                  {page.map((feat, i) => (
+                    <div key={i} className="featBlock">
+                      <p className="featText">{feat}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              {isFlipping && <div className="flipOverlay" />}
+            </div>
+
+            {/* MOBILE SINGLE PAGE */}
+            <div className="mobileOnly">
+              <div className="page">
+                {pageSlice.map((feat, i) => (
+                  <div key={i} className="featBlock">
+                    <p className="featText">{feat}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PAGINATION (WORKS FOR BOTH) */}
+            <div className="mt-8 flex justify-between">
+              <button
+                disabled={!canPrev}
+                onClick={() => runFlip("prev")}
+                className="border border-yellow-500 px-4 py-2 font-mono text-xs disabled:opacity-30"
+              >
+                ◀ Prev
+              </button>
+              <button
+                disabled={!canNext}
+                onClick={() => runFlip("next")}
+                className="border border-yellow-500 px-4 py-2 font-mono text-xs disabled:opacity-30"
+              >
+                Next ▶
+              </button>
+            </div>
+          </>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
