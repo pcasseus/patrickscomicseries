@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Modal = ({
   title,
@@ -7,9 +7,13 @@ const Modal = ({
   tabbed = false,
   baseContent,
   evolvedContent,
-  selectedBooks = [] 
+  selectedBooks = [],
+  theme = "default", // "power" | "danger" | "default"
 }) => {
-  const [activeTab, setActiveTab] = useState('base');
+  const [activeTab, setActiveTab] = useState("base");
+
+  const isPower = theme === "power";
+  const isDanger = theme === "danger";
 
   const isLocked = (bookList) => {
     if (!bookList || !Array.isArray(bookList)) return false;
@@ -17,105 +21,131 @@ const Modal = ({
   };
 
   const renderTabs = () => {
-    const tabs = [{ id: 'base', label: 'Base Form' }];
+    const tabs = [{ id: "base", label: "Base Form" }];
 
     if (Array.isArray(evolvedContent)) {
       evolvedContent.forEach((entry, idx) => {
-        const books = entry?.books || [];
-        const locked = isLocked(books);
+        const locked = isLocked(entry?.books);
         tabs.push({
           id: `evolved-${idx}`,
-          label: `${entry?.title?.trim() || `Evolved ${idx + 1}`}${locked ? ' 🔒' : ''}`
+          label: `${entry?.title || `Evolved ${idx + 1}`}${locked ? " 🔒" : ""}`,
         });
-      });
-    } else if (evolvedContent) {
-      const books = evolvedContent?.books || [];
-      const locked = isLocked(books);
-      tabs.push({
-        id: 'evolved',
-        label: `${evolvedContent?.title?.trim() || 'Evolved Form'}${locked ? ' 🔒' : ''}`
       });
     }
 
     return (
-      <div className="flex gap-4 mb-4 text-sm sm:text-base flex-wrap">
-        {tabs.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`px-4 py-1 rounded border transition-all duration-200 ${
-              activeTab === id
-                ? 'bg-yellow-500 text-black border-yellow-400'
-                : 'bg-black text-yellow-300 border-yellow-700 hover:border-yellow-500 hover:text-yellow-200'
-            }`}
-            onClick={() => setActiveTab(id)}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="flex gap-3 mb-5 flex-wrap">
+        {tabs.map(({ id, label }) => {
+          const active = activeTab === id;
+
+          let styles =
+            "px-4 py-1 rounded border transition font-mono tracking-wider";
+
+          if (isDanger) {
+            styles += active
+              ? " bg-red-600 text-black border-red-500"
+              : " bg-black text-red-300 border-red-700 hover:border-red-500";
+          } else if (isPower) {
+            styles += active
+              ? " bg-cyan-400 text-black border-cyan-300"
+              : " bg-black text-cyan-300 border-cyan-700 hover:border-cyan-400";
+          } else {
+            styles += active
+              ? " bg-yellow-400 text-black border-yellow-300"
+              : " bg-black text-yellow-300 border-yellow-700 hover:border-yellow-400";
+          }
+
+          return (
+            <button
+              key={id}
+              className={styles}
+              onClick={() => setActiveTab(id)}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
     );
   };
 
   const renderContent = () => {
     if (!tabbed) return children;
+    if (activeTab === "base") return baseContent;
 
-    if (activeTab === 'base') return baseContent;
+    const idx = parseInt(activeTab.split("-")[1], 10);
+    const content = evolvedContent[idx];
+    const locked = isLocked(content?.books);
 
-    if (Array.isArray(evolvedContent)) {
-      const idx = parseInt(activeTab.split('-')[1], 10);
-      const content = evolvedContent[idx];
-      const locked = isLocked(content?.books);
-      return locked ? (
-        <p className="text-yellow-500 italic">
-          🔒 This evolution is locked. Activate Book {content?.books?.join(', ') || '?'} to view it.
+    if (locked) {
+      return (
+        <p className="italic text-red-400">
+          🔒 Locked — Activate Book {content?.books?.join(", ") || "?"}
         </p>
-      ) : (
-        <>
-          <p className="mb-2">{content?.description}</p>
-          {content?.book && (
-            <p className="text-sm text-yellow-300">
-              Evolves In: <strong>{content.book}</strong>
-            </p>
-          )}
-        </>
       );
     }
 
-    const locked = isLocked(evolvedContent?.books);
-    return locked ? (
-      <p className="text-yellow-500 italic">
-        🔒 This evolution is locked. Activate Book {evolvedContent?.books?.join(', ') || '?'} to view it.
-      </p>
-    ) : (
+    return (
       <>
-        <p className="mb-2">{evolvedContent?.description}</p>
-        {evolvedContent?.book && (
-          <p className="text-sm text-yellow-300">
-            Evolves In: <strong>{evolvedContent.book}</strong>
+        <p className="mb-3">{content?.description}</p>
+        {content?.book && (
+          <p className="text-sm opacity-80">
+            Evolves In: <strong>{content.book}</strong>
           </p>
         )}
       </>
     );
   };
 
+  /* ===============================
+     THEME STYLES
+  =============================== */
+
+  let borderColor = "border-zinc-700";
+  let titleColor = "text-white";
+  let glow = "";
+
+  if (isDanger) {
+    borderColor = "border-red-600";
+    titleColor = "text-red-400";
+    glow = "shadow-[0_0_30px_rgba(255,0,0,0.45)]";
+  } else if (isPower) {
+    borderColor = "border-cyan-400";
+    titleColor = "text-cyan-300";
+    glow = "shadow-[0_0_30px_rgba(0,200,255,0.35)]";
+  }
+
   return (
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[9999] px-4 sm:px-6 animate-fade-in">
-      <div className="bg-zinc-900 border border-lime-400 shadow-2xl rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto p-4 sm:p-6 relative text-white font-mono tracking-wide leading-relaxed scrollbar-thin scrollbar-thumb-lime-400 scrollbar-track-transparent">
+    <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] px-4 animate-fade-in">
+      <div
+        className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 rounded-lg font-mono tracking-wide bg-black text-white border ${borderColor} ${glow}`}
+      >
+        {/* CLOSE */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-lime-300 hover:text-lime-200 text-xl sm:text-2xl"
-          aria-label="Close modal"
+          className={`absolute top-3 right-4 text-xl transition ${
+            isDanger
+              ? "text-red-400 hover:text-red-200"
+              : isPower
+              ? "text-cyan-300 hover:text-cyan-100"
+              : "text-yellow-300 hover:text-yellow-100"
+          }`}
         >
           ✕
         </button>
 
-        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-300 mb-4 uppercase tracking-widest">
+        {/* TITLE */}
+        <h2
+          className={`text-xl font-bold mb-5 uppercase tracking-widest ${titleColor}`}
+        >
           {title}
         </h2>
 
+        {/* TABS */}
         {tabbed && renderTabs()}
 
-        <div className="text-sm sm:text-base whitespace-pre-line">
+        {/* CONTENT */}
+        <div className="text-sm leading-relaxed whitespace-pre-line">
           {renderContent()}
         </div>
       </div>

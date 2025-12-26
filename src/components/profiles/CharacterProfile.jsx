@@ -9,10 +9,10 @@ const CharacterProfile = () => {
   const { slug } = useParams();
   const character = characterData[slug];
 
-  const [themeActive, setThemeActive] = useState(false);
   const [selectedAbility, setSelectedAbility] = useState(null);
   const [selectedRelation, setSelectedRelation] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedTrait, setSelectedTrait] = useState(null);
   const [subVisible, setSubVisible] = useState({});
 
   const { phase, replayKey, markIntroComplete, replayIntro } = useIntroPhase();
@@ -36,24 +36,6 @@ const CharacterProfile = () => {
     };
   }, [slug]);
 
-  const toggleTheme = () => {
-    const themeId = 'custom-theme-toggle';
-    const existing = document.getElementById(themeId);
-    if (existing) {
-      existing.classList.add('fade-out');
-      setTimeout(() => existing.remove(), 500);
-      setThemeActive(false);
-    } else {
-      const link = document.createElement('link');
-      link.id = themeId;
-      link.rel = 'stylesheet';
-      link.href = `/themes/${slug}-theme.css`;
-      link.classList.add('fade-in');
-      document.head.appendChild(link);
-      setThemeActive(true);
-    }
-  };
-
   const toggleSub = (abilityName) => {
     setSubVisible((prev) => ({
       ...prev,
@@ -71,8 +53,8 @@ const CharacterProfile = () => {
         <AccessIntro
           key={replayKey}
           name={character.name}
-          shouldPlay={true}
-          forcePlay={true}
+          shouldPlay
+          forcePlay
           onComplete={markIntroComplete}
         />
       )}
@@ -80,8 +62,6 @@ const CharacterProfile = () => {
       {phase === 'profile' && (
         <ProfileBody
           character={character}
-          toggleTheme={toggleTheme}
-          themeActive={themeActive}
           subVisible={subVisible}
           toggleSub={toggleSub}
           selectedAbility={selectedAbility}
@@ -90,6 +70,8 @@ const CharacterProfile = () => {
           setSelectedRelation={setSelectedRelation}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
+          selectedTrait={selectedTrait}
+          setSelectedTrait={setSelectedTrait}
           replayIntro={replayIntro}
         />
       )}

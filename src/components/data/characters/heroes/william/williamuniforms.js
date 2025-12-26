@@ -2,11 +2,11 @@ import williamUniforms from "./williamuniforms";
 
 const williamsUniforms = [
   {
-    id: "war_suit",
-    name: "War Suit",
-    label: "'s War Suit",
+    id: "",
+    name: "No Suits Logged",
+    label: "No Suits Logged",
     description: "",
-    images: ["/uniforms/william1.png", "/uniforms/william2.png"],
+    images: [],
   },
 ];
 

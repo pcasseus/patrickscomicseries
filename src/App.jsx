@@ -49,6 +49,12 @@ function App() {
   usePreloadVoices();
 
   useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
     const unlock = () => {
       document.body.style.overflow = "auto";
     };
@@ -65,13 +71,16 @@ function App() {
   return (
     <FirebaseProvider>
       <Router>
+        {/* Global scroll reset on route change */}
         <ScrollToTop />
+
         <div className="min-h-screen bg-black text-green-400 font-mono">
           {!bootComplete ? (
             <AIBootup onComplete={handleBootComplete} />
           ) : (
             <>
               <Navbar />
+
               <main className="px-6 py-8">
                 <Routes>
                   {/* 🌐 Home */}

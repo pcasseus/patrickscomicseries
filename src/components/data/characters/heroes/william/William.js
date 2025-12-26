@@ -12,11 +12,21 @@ const abilities = [...abilities1];
 
 const william = {
   id: "#008",
+  slug: "william",
   name: "William Hutton",
   image: "/william.jpg",
   class: "Human Class",
-  status: "Active",
   primaryPower: "Omni-Technical Intellect",
+
+  aliases: [],
+
+  birthDate: "November 9, 1999",
+
+  fancast: {
+    actor: "Charlie Rowe",
+    note: "This is a non-commercial fancast reference only. The listed actor is not affiliated with or involved in this project.",
+  },
+
   stats,
   bio,
   abilities,
