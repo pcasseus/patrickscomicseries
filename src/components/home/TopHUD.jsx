@@ -18,7 +18,7 @@ const TopHUD = ({ onRedoBootup }) => {
           Editing Phase — {now}
         </h2>
         <p className="text-gray-300 text-xs mt-1 sm:mt-0">
-          All books complete. Final polishing in progress. Publishing goal: Late 2025.
+          All books complete. Final polishing in progress. Publishing of Book 1 goal: Spring 2026.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ const TopHUD = ({ onRedoBootup }) => {
           onClick={onRedoBootup}
           className="text-yellow-300 border border-yellow-500 text-[10px] px-3 py-1 rounded hover:bg-yellow-500/10 transition"
         >
-          Redo Bootup
+          Play Cinematic Intro
         </button>
       </div>
     </div>
