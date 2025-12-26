@@ -21,7 +21,7 @@ const IncomingTransmissionPanel = () => {
         KENSHIN_CORE ONLINE
       </div>
 
-      {/* ✅ Reusable AI Circle */}
+      {/* AI Circle */}
       <div className="relative mx-auto z-10 -mt-2 scale-[0.8] sm:scale-100">
         <AICoreCircle size={144} />
       </div>
@@ -54,7 +54,7 @@ const IncomingTransmissionPanel = () => {
           Welcome to my mind.
         </p>
         <p className="text-cyan-300 font-bold text-sm">
-          This isn’t just a wiki. This is your transmission feed into the mythos.
+          This is the Kenshinverse Wiki. 
         </p>
       </div>
 
@@ -65,7 +65,6 @@ const IncomingTransmissionPanel = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          {/* Option 1: Wesley */}
           <button
             onClick={handleAccessWesley}
             className="w-full sm:flex-1 bg-blue-900/30 border border-blue-400 px-4 py-3 rounded-md text-left hover:bg-blue-800/30 transition shadow-md hover:shadow-blue-500/30"
@@ -82,9 +81,8 @@ const IncomingTransmissionPanel = () => {
             </div>
           </button>
 
-          {/* Option 2: Chapter One */}
           <button
-            onClick={() => navigate("/books/book1")}
+            onClick={() => navigate("/trilogy-1")}
             className="w-full sm:flex-1 bg-yellow-900/30 border border-yellow-400 px-4 py-3 rounded-md text-left hover:bg-yellow-800/30 transition shadow-md hover:shadow-yellow-400/30"
           >
             <div className="flex items-center gap-2 text-yellow-200 text-[10px] uppercase mb-1">
@@ -95,11 +93,10 @@ const IncomingTransmissionPanel = () => {
               Curious how it all starts?
             </div>
             <div className="text-yellow-400 text-[11px]">
-              Begin Chapter One of Book 1: Rise of Iztan.
+              Read the Trilogy Synopsis'
             </div>
           </button>
 
-          {/* Option 3: Lore Index */}
           <button
             onClick={() => navigate("/lore")}
             className="w-full sm:flex-1 bg-purple-900/30 border border-purple-400 px-4 py-3 rounded-md text-left hover:bg-purple-800/30 transition shadow-md hover:shadow-purple-400/30"

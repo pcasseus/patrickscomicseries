@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // 🔐 Firebase Auth Context
@@ -35,99 +35,69 @@ import ForgotPassword from "./pages/ForgotPassword";
 // 📄 About
 import About from "./pages/About";
 
-// 💻 AI Boot Sequence
-import AIBootup from "./components/home/AIBootup";
-
 // 🗣 Voice Preloader
 import { usePreloadVoices } from "./utils/usePreloadVoices";
 
 function App() {
-  const [bootComplete, setBootComplete] = useState(() => {
-    return sessionStorage.getItem("bootCompleted") === "true";
-  });
-
   usePreloadVoices();
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+    document.body.style.overflow = "auto";
   }, []);
-
-  useEffect(() => {
-    const unlock = () => {
-      document.body.style.overflow = "auto";
-    };
-    unlock();
-    const interval = setInterval(unlock, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleBootComplete = () => {
-    sessionStorage.setItem("bootCompleted", "true");
-    setBootComplete(true);
-  };
 
   return (
     <FirebaseProvider>
       <Router>
-        {/* Global scroll reset on route change */}
         <ScrollToTop />
 
         <div className="min-h-screen bg-black text-green-400 font-mono">
-          {!bootComplete ? (
-            <AIBootup onComplete={handleBootComplete} />
-          ) : (
-            <>
-              <Navbar />
+          <Navbar />
 
-              <main className="px-6 py-8">
-                <Routes>
-                  {/* 🌐 Home */}
-                  <Route path="/" element={<ResponsiveInterface />} />
+          <main className="px-6 py-8">
+            <Routes>
+              {/* 🌐 Home */}
+              <Route path="/" element={<ResponsiveInterface />} />
 
-                  {/* 👤 Characters */}
-                  <Route path="/characters" element={<CharacterGallery />} />
-                  <Route
-                    path="/characters/:slug"
-                    element={<SecureCharacterProfile />}
-                  />
+              {/* 👤 Characters */}
+              <Route path="/characters" element={<CharacterGallery />} />
+              <Route
+                path="/characters/:slug"
+                element={<SecureCharacterProfile />}
+              />
 
-                  {/* 📺 Broadcast */}
-                  <Route path="/broadcast" element={<Broadcast />} />
+              {/* 📺 Broadcast */}
+              <Route path="/broadcast" element={<Broadcast />} />
 
-                  {/* 📘 Trilogy Hub */}
-                  <Route path="/trilogy-1" element={<TrilogyOne />} />
+              {/* 📘 Trilogy Hub */}
+              <Route path="/trilogy-1" element={<TrilogyOne />} />
 
-                  {/* 🧭 Lore */}
-                  <Route path="/lore" element={<Lore />} />
-                  <Route path="/lore/races" element={<Races />} />
-                  <Route path="/lore/pois/*" element={<POIHub />} />
+              {/* 🧭 Lore */}
+              <Route path="/lore" element={<Lore />} />
+              <Route path="/lore/races" element={<Races />} />
+              <Route path="/lore/pois/*" element={<POIHub />} />
 
-                  {/* 🔐 Auth */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route
-                    path="/forgot-password"
-                    element={<ForgotPassword />}
-                  />
+              {/* 🔐 Auth */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
 
-                  {/* 📄 About */}
-                  <Route path="/about" element={<About />} />
+              {/* 📄 About */}
+              <Route path="/about" element={<About />} />
 
-                  {/* 🛑 404 */}
-                  <Route
-                    path="*"
-                    element={
-                      <div className="text-center text-red-500 text-xl py-20">
-                        404 — Page not found
-                      </div>
-                    }
-                  />
-                </Routes>
-              </main>
-            </>
-          )}
+              {/* 🛑 404 */}
+              <Route
+                path="*"
+                element={
+                  <div className="text-center text-red-500 text-xl py-20">
+                    404 — Page not found
+                  </div>
+                }
+              />
+            </Routes>
+          </main>
         </div>
       </Router>
     </FirebaseProvider>

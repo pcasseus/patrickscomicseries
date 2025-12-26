@@ -1,4 +1,3 @@
-// MainInterface.jsx
 import React from "react";
 import TopHUD from "./TopHUD";
 import TrilogyProgressPanel from "./TrilogyProgressPanel";
