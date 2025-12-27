@@ -23,6 +23,7 @@ import Broadcast from "./pages/broadcast/Broadcast";
 import Lore from "./pages/Lore";
 import Races from "./pages/races/Races";
 import POIHub from "./pages/POIHub";
+import Leaderboard from "./pages/leaderboard/Leaderboard"
 
 // 📘 Trilogies
 import TrilogyOne from "./pages/trilogies/TrilogyOne";
@@ -78,6 +79,8 @@ function App() {
               <Route path="/lore" element={<Lore />} />
               <Route path="/lore/races" element={<Races />} />
               <Route path="/lore/pois/*" element={<POIHub />} />
+              <Route path="/lore/leaderboard" element={<Leaderboard />} />
+
 
               {/* 🔐 Auth */}
               <Route path="/login" element={<Login />} />
