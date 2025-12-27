@@ -27,7 +27,7 @@ export default function TrilogyOne() {
           tier={1}
           mood="bittersweet"
           title="Book I"
-          description="An alien teenager lives quietly on Earth, unaware that a past long thought buried is about to raise hell. When that past collides with the present, a chain of events is set in motion that will determine the course of his future and fracture the world around him."
+          description="A teenager lives quietly on Earth, unaware that a long-buried past is beginning to resurface. When that past collides with the present, a chain of events is set in motion that will determine the course of his future and fracture the world around him."
           status="Rewrites in Progress"
           unlocked
           onViewCast={() => setActivePhase(1)}
@@ -65,7 +65,7 @@ export default function TrilogyOne() {
           tier={1}
           mood="bittersweet"
           title="Book I"
-          description="An alien teenager lives quietly on Earth, unaware that a past long thought buried is about to raise hell. When that past collides with the present, a chain of events is set in motion that will determine the course of his future and fracture the world around him."
+          description="A teenager lives quietly on Earth, unaware that a long-buried past is beginning to resurface. When that past collides with the present, a chain of events is set in motion that will determine the course of his future and fracture the world around him."
           status="Rewrites in Progress"
           unlocked
           onViewCast={() => setActivePhase(1)}

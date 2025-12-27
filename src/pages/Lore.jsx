@@ -30,16 +30,16 @@ export default function Lore() {
 
           <div className="grid grid-cols-2 gap-12">
 
-            {/* ===== RACES — PAGE TURN ===== */}
+            {/* ===== RACES — GREEN ===== */}
             <Link
               to="/lore/races"
-              className="group relative bg-gradient-to-br from-yellow-900/90 to-yellow-950 border border-yellow-600 rounded-xl p-10 shadow-xl overflow-hidden transition-all duration-500"
+              className="group relative bg-gradient-to-br from-green-900/85 to-black border border-green-600 rounded-xl p-10 shadow-xl overflow-hidden transition-all duration-500"
             >
               {/* Page Curl */}
               <div className="absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-black/40 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
               <div className="absolute top-0 right-0 h-full w-full origin-right scale-x-0 group-hover:scale-x-100 bg-black/20 transition-transform duration-500" />
 
-              <h3 className="text-2xl font-bold text-yellow-300 mb-4 tracking-wide">
+              <h3 className="text-2xl font-bold text-green-300 mb-4 tracking-wide">
                 🧬 Races
               </h3>
               <p className="text-gray-300 leading-relaxed">
@@ -47,8 +47,32 @@ export default function Lore() {
                 off-world entities, and hybrid lifeforms that shape the universe.
               </p>
 
-              <span className="absolute bottom-6 right-8 text-[11px] text-yellow-500 opacity-70">
+              <span className="absolute bottom-6 right-8 text-[11px] text-green-500 opacity-70">
                 Volume I
+              </span>
+            </Link>
+
+            {/* ===== LEADERBOARD — GOLD ===== */}
+            <Link
+              to="/lore/leaderboard"
+              className="group relative bg-gradient-to-br from-yellow-900/90 to-yellow-950 border border-yellow-600 rounded-xl p-10 shadow-xl overflow-hidden transition-all duration-500"
+            >
+              <h3 className="text-2xl font-bold text-yellow-300 mb-4 tracking-wide">
+                🧠 Kenshinverse Leaderboard
+              </h3>
+
+              <p className="text-gray-300 leading-relaxed">
+                A living strength index tracking the most powerful entities across
+                Books I–III. Rankings shift as power evolves, alliances change, and
+                limits are broken.
+              </p>
+
+              <p className="mt-4 text-yellow-400 text-xs italic">
+                Dynamic rankings • Timeline-based • Canon-locked
+              </p>
+
+              <span className="absolute bottom-6 right-8 text-[11px] text-yellow-500 opacity-70">
+                Power Index
               </span>
             </Link>
 
@@ -127,12 +151,12 @@ export default function Lore() {
 
         <div className="mt-12 space-y-6">
 
-          {/* Mobile Races */}
+          {/* Mobile Races — GREEN */}
           <Link
             to="/lore/races"
-            className="block border border-yellow-600 rounded-lg p-5 bg-yellow-900/80"
+            className="block border border-green-600 rounded-lg p-5 bg-green-900/80"
           >
-            <h3 className="text-lg font-bold text-yellow-300">
+            <h3 className="text-lg font-bold text-green-300">
               🧬 Races
             </h3>
             <p className="text-gray-300 text-sm mt-2">
