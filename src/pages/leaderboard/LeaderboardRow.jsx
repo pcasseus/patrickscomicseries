@@ -42,7 +42,7 @@ export default function LeaderboardRow({ entry }) {
           align-items: center;
           padding: 14px 18px;
           border-bottom: 1px solid rgba(255,200,66,0.15);
-          will-change: transform; /* ✅ Smooth FLIP */
+          will-change: transform;
         }
 
         .rank {
@@ -60,6 +60,9 @@ export default function LeaderboardRow({ entry }) {
 
         .name {
           font-weight: 600;
+          white-space: nowrap; /* 🔑 keep full name together */
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .delta {
@@ -67,18 +70,61 @@ export default function LeaderboardRow({ entry }) {
           margin-left: 6px;
         }
 
-        .delta.up {
-          color: #22c55e;
-        }
-
-        .delta.down {
-          color: #ef4444;
-        }
+        .delta.up { color: #22c55e; }
+        .delta.down { color: #ef4444; }
 
         .points {
           text-align: right;
           opacity: 0.8;
           font-variant-numeric: tabular-nums;
+          white-space: nowrap;
+        }
+
+        /* ---------------- MOBILE ENHANCEMENTS ---------------- */
+
+        @media (max-width: 700px) {
+          .lb-row {
+            grid-template-columns: 48px 36px 1fr 96px;
+            padding: 12px 14px;
+          }
+
+          .avatar {
+            width: 32px;
+            height: 32px;
+          }
+
+          .name {
+            font-size: 13px;
+          }
+
+          .points {
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .lb-row {
+            grid-template-columns: 42px 32px 1fr auto;
+            padding: 10px 12px;
+            gap: 10px;
+          }
+
+          .rank {
+            font-size: 12px;
+          }
+
+          .avatar {
+            width: 28px;
+            height: 28px;
+          }
+
+          .name {
+            font-size: 12px;
+          }
+
+          .points {
+            font-size: 11px;
+          }
         }
       `}</style>
     </div>

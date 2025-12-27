@@ -84,11 +84,49 @@ export default function LeaderboardStats({ stats }) {
           display: flex;
           justify-content: space-between;
           font-size: 13px;
+          gap: 12px;
         }
 
         .debut {
           opacity: 0.65;
           font-size: 12px;
+          white-space: nowrap;
+        }
+
+        /* ---------------- MOBILE ENHANCEMENTS ---------------- */
+
+        @media (max-width: 700px) {
+          .lb-stats {
+            padding: 16px;
+          }
+
+          .lb-stats h3 {
+            text-align: center;
+          }
+
+          .entry {
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .lb-stats {
+            padding: 14px;
+          }
+
+          .stat {
+            margin-bottom: 14px;
+          }
+
+          .entry {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+          }
+
+          .debut {
+            font-size: 11px;
+          }
         }
       `}</style>
     </aside>
