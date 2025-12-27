@@ -146,9 +146,55 @@ export default function Leaderboard() {
           border: 1px solid rgba(255, 200, 66, 0.25);
         }
 
+        /* ---------------- MOBILE ENHANCEMENTS ---------------- */
+
         @media (max-width: 900px) {
           .lb-grid {
             grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .lb-root {
+            padding: 40px 16px 72px;
+          }
+
+          .lb-header h1 {
+            font-size: 22px;
+            letter-spacing: 0.14em;
+          }
+
+          .lb-header p {
+            font-size: 13px;
+          }
+
+          .book-tabs {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+          }
+
+          .book-btn {
+            padding: 7px 16px;
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .lb-header {
+            margin-bottom: 20px;
+          }
+
+          .lb-header h1 {
+            font-size: 20px;
+          }
+
+          .lb-header p {
+            font-size: 12px;
+          }
+
+          .lb-grid {
+            gap: 24px;
           }
         }
       `}</style>

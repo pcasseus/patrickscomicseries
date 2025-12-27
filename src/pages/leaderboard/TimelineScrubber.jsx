@@ -36,6 +36,34 @@ export default function TimelineScrubber({ phase, setPhase }) {
           background: #f5c842;
           color: #000;
         }
+
+        /* ---------------- MOBILE ENHANCEMENTS ---------------- */
+
+        @media (max-width: 700px) {
+          .timeline-wrap {
+            gap: 12px;
+            margin: 16px 0 28px;
+            flex-wrap: wrap;
+          }
+
+          .timeline-btn {
+            padding: 8px 20px;
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .timeline-wrap {
+            gap: 10px;
+            margin: 14px 0 24px;
+          }
+
+          .timeline-btn {
+            padding: 7px 18px;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+          }
+        }
       `}</style>
     </div>
   );
