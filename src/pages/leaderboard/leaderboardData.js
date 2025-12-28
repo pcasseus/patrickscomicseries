@@ -16,6 +16,9 @@ export const CHARACTERS = {
   talia: { name: "Talia Yasin", image: "/talia.jpg" },
   ajax: { name: "Ajax Johnson", image: "/ajax.jpg" },
   zoey: { name: "Zoey Pierce-Harris", image: "/zoey.jpg" },
+  brianna: {name: "Brianna Gutiérrez", image: "/brianna.jpg"},
+  andrew: {name: "Andrew Torres", image: "/andrew.jpg"},
+  robert: {name: "Robert Garcia", image: "/robert.jpg"},
 };
 
 function buildPhase(pointsMap) {
@@ -60,7 +63,9 @@ export const leaderboardPhases = {
     danny: 695,
     jade: 750,
     talia: 650,
+    robert: 650,
     ajax: 450,
+    andrew: 100,
     zoey: 150,
   }),
 
@@ -79,6 +84,9 @@ export const leaderboardPhases = {
     talia: 1393,
     azazel: 1304,
     ajax: 1252,
+    brianna: 1528,
+    robert: 1256,
+    andrew: 200,
     zoey: 150,
   }),
 };
