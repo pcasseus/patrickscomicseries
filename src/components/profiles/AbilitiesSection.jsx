@@ -14,8 +14,13 @@ const AbilitiesSection = ({
     ? character.abilities
     : [];
 
-  const isBookMatch = (entryBooks = []) =>
-    entryBooks.some((b) => selectedBooks.includes(b));
+  const isBookMatch = (entryBooks = []) => {
+    if (!Array.isArray(entryBooks)) 
+      return false;
+    if(!Array.isArray(selectedBooks) || selectedBooks.length === 0)
+      return true;
+    return entryBooks.some((b) => selectedBooks.includes(b));
+  }
 
   const visibleAbilities = abilities.filter((a) =>
     isBookMatch(a.books)
@@ -103,7 +108,8 @@ const AbilitiesSection = ({
                     {hasSub && subVisible[ability.name] && (
                       <div className="pl-5 mt-3 space-y-2">
                         {ability.subAbilities.map((sub, subIndex) => {
-                          if (!isBookMatch(sub.books)) return null;
+                          if (!isBookMatch(sub.books)) 
+                            return null;
 
                           return (
                             <button
@@ -115,7 +121,14 @@ const AbilitiesSection = ({
                                   __theme: "ability",
                                 });
                               }}
-                              className="w-full text-left border border-cyan-400 text-cyan-200 px-3 py-1 rounded transition text-sm hover:text-black hover:bg-cyan-400"
+                              className="
+                              w-full text-left text-sm px-3 py-1 rounded border 
+                              border-cyan-400 text-cyan-200 
+                              transition-all duration-200  
+                              hover:bg-cyan-400/20
+                              hover:text-cyan-100
+                              hover:border-cyan-300
+                              "
                               style={{
                                 backgroundColor: "#0b0b0b",
                                 backgroundImage: `
